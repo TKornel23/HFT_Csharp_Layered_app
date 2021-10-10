@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HSTUTU_HFT_2021221.Models\HSTUTU_HFT_2021221.Models.csproj" />
+  </ItemGroup>
+
 </Project>
