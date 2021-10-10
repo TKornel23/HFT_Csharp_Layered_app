@@ -8,4 +8,13 @@
     <ProjectReference Include="..\HSTUTU_HFT_2021221.Models\HSTUTU_HFT_2021221.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="HSTUTU_HFT_2021221.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="HSTUTU_HFT_2021221_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
