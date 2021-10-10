@@ -23,6 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{757772
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HSTUTU_HFT_2021221.Client", "HSTUTU_HFT_2021221.Client\HSTUTU_HFT_2021221.Client.csproj", "{A8E4AC08-0B58-46C1-81AB-8AC40998AC98}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Others", "Others", "{92B8EC5A-AD34-4B0B-85BC-8587519AC3AA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
