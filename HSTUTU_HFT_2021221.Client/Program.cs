@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HSTUTU_HFT_2021221.Data;
 using HSTUTU_HFT_2021221.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HSTUTU_HFT_2021221
 {
@@ -10,12 +11,6 @@ namespace HSTUTU_HFT_2021221
     {
         static void Main(string[] args)
         {
-            BlogDbContext ctx = new BlogDbContext();
-            foreach (var item in ctx.Blogs)
-            {
-                Console.WriteLine(item.Title);
-            }
-            Console.ReadLine();
         }
     }
 }
