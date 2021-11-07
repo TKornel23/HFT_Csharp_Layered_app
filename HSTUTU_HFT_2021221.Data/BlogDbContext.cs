@@ -37,15 +37,15 @@ namespace HSTUTU_HFT_2021221.Data
                 .WithMany(t => t.PostTags)
                 .HasForeignKey(pt => pt.TagId);
 
-            Blog b1 = new Blog() { ID = 1, Title = "Numero Uno" };
-            Blog b2 = new Blog() { ID = 2, Title = "Numero Zwei" };
+            Blog b1 = new Blog() { Title = "Numero Uno" , ID = 1};
+            Blog b2 = new Blog() { Title = "Numero Zwei" , ID = 2};
 
-            Post p1 = new Post() { Id = 1, IsDeleted = false, Title = "Top ten reasons why my HFT teacher is the best teacher in the world", PostTags = { }, PostContent = "lorem ipsun" };
+            Post p1 = new Post() {Id = 1, Title = "Top ten reasons why my HFT teacher is the best teacher in the world", BlogId = 1, PostContent = "lorem ipsun" };
 
-            Post p2 = new Post() { Id = 2, IsDeleted = false, PostContent = "lorem ipsum dolores est", PostTags = { }, Title = "No comments" };
+            Post p2 = new Post() {Id = 2, PostContent = "lorem ipsum dolores est", BlogId = 2, Title = "No comments" };
 
-            Tag t1 = new Tag() { Id = 1, IsDeleted = false, Name = "Tag Uno", PostTags = { } };
-            Tag t2 = new Tag() { Id = 2, IsDeleted = false, Name = "Tag Zwei", PostTags = { } };
+            Tag t1 = new Tag() {  Name = "Tag Uno", Id = 2 };
+            Tag t2 = new Tag() {  Name = "Tag Zwei", Id = 1 };
 
             PostTag pt1 = new PostTag() { PostId = 1, TagId = 1 };
             PostTag pt2 = new PostTag() { PostId = 2, TagId = 2 };
