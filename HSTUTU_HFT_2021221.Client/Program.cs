@@ -17,16 +17,23 @@ namespace HSTUTU_HFT_2021221
             Tag tag = new Tag();
             Post post = new Post();
 
-            TagRepository tagrep = new TagRepository(ctx);
-
-            foreach (var item in ctx.Tags)
+            foreach (var item in ctx.Blogs)
             {
-                Console.WriteLine(item.Name);
-            }
-            tagrep.ChangeTagName(1, "nemis");
-            foreach (var item in ctx.Tags)
-            {
-                Console.WriteLine(item.Name);
+                Console.WriteLine("***********************");
+                Console.WriteLine("Blog Title");
+                Console.WriteLine("---------------------");
+                Console.WriteLine(item.Title);
+                foreach (var asd in ctx.Posts)
+                {
+                    if(asd.BlogId == item.ID)
+                    {
+                        Console.WriteLine("**********************");
+                        Console.WriteLine("Post Title");
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(asd.Title);
+                        Console.WriteLine(asd.PostContent);
+                    }
+                }
             }
             ;
         }

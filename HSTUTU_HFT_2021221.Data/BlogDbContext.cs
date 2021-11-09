@@ -18,7 +18,7 @@ namespace HSTUTU_HFT_2021221.Data
         {
             if (!options.IsConfigured)
             {
-                options.UseLazyLoadingProxies().UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\HSTUTU_HFT_2021221.mdf;Integrated Security=True");
+                options.UseLazyLoadingProxies().UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\HSTUTU_HFT_2021221.mdf;Integrated Security=True;MultipleActiveResultSets=True");
             }
         }
 
