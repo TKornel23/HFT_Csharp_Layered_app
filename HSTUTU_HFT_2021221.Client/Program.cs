@@ -17,6 +17,11 @@ namespace HSTUTU_HFT_2021221
             Tag tag = new Tag();
             Post post = new Post();
 
+            BlogRepository rep = new BlogRepository(ctx);
+            PostRepository pt = new PostRepository(ctx);
+            pt.Delete(2);
+            rep.Delete(1);
+
             foreach (var item in ctx.Blogs)
             {
                 Console.WriteLine("***********************");
