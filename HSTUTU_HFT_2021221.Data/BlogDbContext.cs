@@ -46,14 +46,18 @@ namespace HSTUTU_HFT_2021221.Data
 
             Tag t1 = new Tag() {  Name = "Tag Uno", Id = 2 };
             Tag t2 = new Tag() {  Name = "Tag Zwei", Id = 1 };
+            Tag t3 = new Tag() { Name = "Tag Police", Id = 3 };
+            Tag t4 = new Tag() { Name = "Tag Women", Id = 4 };
 
             PostTag pt1 = new PostTag() { PostId = 1, TagId = 1 };
-            PostTag pt2 = new PostTag() { PostId = 2, TagId = 2 };
+            PostTag pt2 = new PostTag() { PostId = 1, TagId = 2 };
+            PostTag pt3 = new PostTag() { PostId = 2, TagId = 3 };
+            PostTag pt4 = new PostTag() { PostId = 2, TagId = 4 };
 
-            modelBuilder.Entity<Tag>().HasData(t1, t2);
+            modelBuilder.Entity<Tag>().HasData(t1, t2,t3,t4);
             modelBuilder.Entity<Blog>().HasData(b1, b2);
             modelBuilder.Entity<Post>().HasData(p1, p2);
-            modelBuilder.Entity<PostTag>().HasData(pt1, pt2);
+            modelBuilder.Entity<PostTag>().HasData(pt1, pt2,pt3,pt4);
         }
     }
 }

@@ -5,6 +5,7 @@ using HSTUTU_HFT_2021221.Data;
 using HSTUTU_HFT_2021221.Models;
 using Microsoft.EntityFrameworkCore;
 using HSTUTU_HFT_2021221.Repository;
+using HSTUTU_HFT_2021221.Logic;
 
 namespace HSTUTU_HFT_2021221
 {
@@ -19,27 +20,10 @@ namespace HSTUTU_HFT_2021221
 
             BlogRepository rep = new BlogRepository(ctx);
             PostRepository pt = new PostRepository(ctx);
-            pt.Delete(2);
-            rep.Delete(1);
 
-            foreach (var item in ctx.Blogs)
-            {
-                Console.WriteLine("***********************");
-                Console.WriteLine("Blog Title");
-                Console.WriteLine("---------------------");
-                Console.WriteLine(item.Title);
-                foreach (var asd in ctx.Posts)
-                {
-                    if(asd.BlogId == item.ID)
-                    {
-                        Console.WriteLine("**********************");
-                        Console.WriteLine("Post Title");
-                        Console.WriteLine("----------------------");
-                        Console.WriteLine(asd.Title);
-                        Console.WriteLine(asd.PostContent);
-                    }
-                }
-            }
+            PostLogic logicp = new PostLogic(pt);
+
+            var q1 = logicp.GetTagsByPostId(2);
             ;
         }
     }

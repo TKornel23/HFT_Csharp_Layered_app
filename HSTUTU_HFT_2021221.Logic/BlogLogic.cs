@@ -22,6 +22,16 @@ namespace HSTUTU_HFT_2021221.Logic
             repo.ChangeBlogTitle(id, title);
         }
 
+        public void CreateBlog(Blog newBlog)
+        {
+            repo.Create(newBlog);
+        }
+
+        public void DeleteBlog(int id)
+        {
+            repo.Delete(id);
+        }
+
         public IList<Blog> GetAllBlogs()
         {
             return repo.GetAll().ToList<Blog>();

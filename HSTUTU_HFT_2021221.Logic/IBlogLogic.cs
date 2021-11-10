@@ -12,5 +12,7 @@ namespace HSTUTU_HFT_2021221.Logic
         Blog GetBlogById(int id);
         void ChangeBlogTitle(int id, string title);
         IList<Blog> GetAllBlogs();
+        void DeleteBlog(int id);
+        void CreateBlog(Blog newBlog);
     }
 }
