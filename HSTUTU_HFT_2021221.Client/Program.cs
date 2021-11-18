@@ -24,10 +24,13 @@ namespace HSTUTU_HFT_2021221
 
             PostLogic logicp = new PostLogic(pt);
             TagLogic tagicp = new TagLogic(tp);
+            BlogLogic blicp = new BlogLogic(rep);
 
 
             var q1 = logicp.GetTagsByPostId(2);
             var q2 = tagicp.GetPostByTagId(1);
+            var q3 = blicp.GetAllBlogPostTitleById(1);
+            var q4 = blicp.GetAllBlogTagNameById(2);
             ;
         }
     }

@@ -37,17 +37,6 @@ namespace HSTUTU_HFT_2021221.Logic
             return repo.GetOne(id);
         }
 
-        public IEnumerable<Tag> GetAllTagsInAPost(int id)
-        {
-            IEnumerable<Tag> tags = new List<Tag>();
-            Post post = repo.GetAll().FirstOrDefault(x => x.Id == id);
-            foreach (var item in post.PostTags)
-            {
-                tags.ToList().Add(item.Tag);
-            }
-            return tags;
-        }
-
         public IEnumerable<string> GetTagsByPostId(int id)
         {
             return repo.GetAll().Select(x => x).Where(x => x.Id == id).SelectMany(x => x.PostTags.Select(x => x.Tag.Name));
