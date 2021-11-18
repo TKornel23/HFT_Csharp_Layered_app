@@ -38,7 +38,7 @@ namespace HSTUTU_HFT_2021221.Data
                 .HasForeignKey(pt => pt.TagId);
 
             Blog b1 = new Blog() { Title = "Numero Uno" , ID = 1};
-            Blog b2 = new Blog() { Title = "Numero Zwei" , ID = 2};
+            Blog b2 = new Blog() { Title = "Numero Zwei" , ID = 2 };
 
             Post p1 = new Post() {Id = 1, Title = "Top ten reasons why my HFT teacher is the best teacher in the world", BlogId = 1, PostContent = "lorem ipsun" };
 
