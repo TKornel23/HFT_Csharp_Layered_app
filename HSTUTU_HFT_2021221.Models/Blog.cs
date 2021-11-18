@@ -15,5 +15,7 @@ namespace HSTUTU_HFT_2021221.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string Title { get; set; }
+        [NotMapped]
+        public virtual ICollection<PostTag> PostTags { get; set; }
     }
 }

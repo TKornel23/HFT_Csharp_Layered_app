@@ -19,5 +19,8 @@ namespace HSTUTU_HFT_2021221.Models
         public virtual Post Post { get; set; }
         [NotMapped]
         public virtual Tag Tag { get; set; }
+        [NotMapped]
+        public virtual Blog Blog { get; set; }
+        public int BlogId { get; set; }
     }
 }
