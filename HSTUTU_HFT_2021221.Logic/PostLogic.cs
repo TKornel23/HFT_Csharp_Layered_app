@@ -19,7 +19,14 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void CreatePost(Post newPost)
         {
-            repo.Create(newPost);
+            if(newPost.Title == null ||newPost.Title == "")
+            {
+                throw new InvalidOperationException();               
+            }
+            else
+            {
+                repo.Create(newPost);
+            }
         }
 
         public void DeletePost(int id)

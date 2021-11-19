@@ -26,7 +26,14 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void CreateBlog(Blog newBlog)
         {
-            repo.Create(newBlog);
+            if(newBlog.Title == null || newBlog.Title == "")
+            {
+                throw new InvalidOperationException("Helytelen Blog cím");
+            }
+            else
+            {
+                repo.Create(newBlog);
+            }           
         }
 
         public void DeleteBlog(int id)

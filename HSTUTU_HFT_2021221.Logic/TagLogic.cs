@@ -1,5 +1,6 @@
 ﻿using HSTUTU_HFT_2021221.Models;
 using HSTUTU_HFT_2021221.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,15 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void CreateTag(Tag newTag)
         {
-            repo.Create(newTag);
+            if(newTag.Name == null || newTag.Name == "")
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                repo.Create(newTag);
+            }
+            
         }
 
         public void DeleteTag(int id)
