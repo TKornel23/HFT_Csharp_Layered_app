@@ -54,19 +54,19 @@ namespace HSTUTU_HFT_2021221.Logic
             return repo.GetAll().Select(x => x).Where(x => x.ID == id).SelectMany(x => x.PostTags.Select(x => x.Tag.Name));
         }
 
-        public IEnumerable<KeyValuePair<string, Post>> GetAllBlogPostById(int id)
+        public IEnumerable<KeyValuePair<string, string>> GetAllBlogPostGroupByBlogTitle()
         {
-            var q1 = posttrepo.GetAll().Where(x => x.BlogId == id);
-            var q2 = repo.GetAll().Where(x => x.ID == id);
+            var q1 = posttrepo.GetAll();
+            var q2 = repo.GetAll();
 
             var q3 = from x in q1
                      join y in q2 on x.BlogId equals y.ID
                      let joinedItem = new
                      {
                          Key = y.Title,
-                         Values = x
+                         Values = x.Title
                      }
-                     select new KeyValuePair<string, Post>(
+                     select new KeyValuePair<string, string>(
                          joinedItem.Key, joinedItem.Values
                      );
             return q3;

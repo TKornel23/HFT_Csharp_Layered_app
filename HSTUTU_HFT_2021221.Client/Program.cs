@@ -27,7 +27,7 @@ namespace HSTUTU_HFT_2021221
             var q2 = tagicp.GetPostByTagId(1);
             var q3 = blicp.GetAllBlogPostTitleById(1);
             var q4 = blicp.GetAllBlogTagNameById(2);
-            var q5 = blicp.GetAllBlogPostById(1);          
+            var q5 = blicp.GetAllBlogPostGroupByBlogTitle();
             ;
         }
     }
