@@ -70,7 +70,7 @@ namespace HSTUTU_HFT_2021221.Test
         {
             var postByBlog = this.blogLogic.GetSumOfPostLikesByBlog();
 
-            Assert.That(postByBlog.Any(x => x.Value.Contains("Post One")), Is.EqualTo(1));
+            Assert.That(postByBlog.Any(x => x.Value == 12), Is.EqualTo(1));
         }
 
         [Test]
@@ -119,12 +119,12 @@ namespace HSTUTU_HFT_2021221.Test
             Blog b3 = new Blog() { ID = 3, Title = "Title Three" };
             Blog b4 = new Blog() { ID = 4, Title = "Title Four" };
 
-            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One" };
-            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two" };
-            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three" };
-            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four" };
-            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five" };
-            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six" };
+            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One", Likes = 12, BlogId = 1 };
+            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two", Likes = 87, BlogId = 3 };
+            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three", Likes = 123, BlogId = 2 };
+            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four", Likes = 91, BlogId = 3 };
+            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five", Likes = 36, BlogId = 4 };
+            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six", Likes = 74, BlogId = 4 };
 
             Tag t1 = new Tag() { Id = 1, Name = "Tag One" };
             Tag t2 = new Tag() { Id = 2, Name = "Tag Two" };
@@ -136,8 +136,8 @@ namespace HSTUTU_HFT_2021221.Test
             PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3 };
             PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2 };
             PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6 };
-            PostTag pt5 = new PostTag() { BlogId = 5, TagId = 4, PostId = 4 };
-            PostTag pt6 = new PostTag() { BlogId = 6, TagId = 5, PostId = 1 };
+            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4 };
+            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5};
             PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
 
             List<Post> posts = new List<Post>();

@@ -86,8 +86,7 @@ namespace HSTUTU_HFT_2021221.Logic
                      (
                          g.Key, g.Sum(x => x.Likes)
                      );
-            
-            
+     
             return q3;
         }
     }
