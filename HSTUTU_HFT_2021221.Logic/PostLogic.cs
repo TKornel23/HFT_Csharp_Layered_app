@@ -31,8 +31,8 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void ChangePostTitle(int id, string title)
         {
-            var post = repo.GetAll().Where(x => x.Id == id);
-            if(post != null)
+            var post = repo.GetOne(id);
+            if(post != null && title != "" && title != null)
             {
                 repo.ChangePostTitle(id, title);
             }

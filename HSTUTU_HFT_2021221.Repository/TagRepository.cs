@@ -39,7 +39,7 @@ namespace HSTUTU_HFT_2021221.Repository
 
         public override Tag GetOne(int id)
         {
-            return _ctx.Tags.FirstOrDefault<Tag>(x => x.Id == id);
+            return GetAll().FirstOrDefault(x => x.Id == id);
         }
     }
 }

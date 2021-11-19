@@ -41,7 +41,7 @@ namespace HSTUTU_HFT_2021221.Repository
 
         public override Blog GetOne(int id)
         {
-            return _ctx.Blogs.FirstOrDefault<Blog>(x => x.ID == id);
+            return GetAll().FirstOrDefault(x => x.ID == id);
         }
     }
 }

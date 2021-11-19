@@ -24,14 +24,6 @@ namespace HSTUTU_HFT_2021221.Test
             Mock<ITagRepository> mockedTag = new Mock<ITagRepository>();
             Mock<IPostRepository> mockedPost = new Mock<IPostRepository>();
 
-            mockedBlog.Setup(x => x.GetOne(It.IsAny<int>())).Returns(
-                new Models.Blog()
-                {
-                    ID = 1,
-                    Title = "Blog Title Uno"               
-                }
-             );
-
             mockedBlog.Setup(x => x.GetAll()).Returns(this.FakeBlogObjects);
             mockedTag.Setup(x => x.GetAll()).Returns(this.FakeTagObjects);
             mockedPost.Setup(x => x.GetAll()).Returns(this.FakePostObjects);
@@ -82,7 +74,7 @@ namespace HSTUTU_HFT_2021221.Test
         }
 
         [Test]
-        public void TestTagCreate()
+        public void TestTagCreateError()
         {
             Tag newTag = new Tag() { Id = 6, Name = "" };
 
@@ -90,7 +82,7 @@ namespace HSTUTU_HFT_2021221.Test
         }
 
         [Test]
-        public void TestBlogCreate()
+        public void TestBlogCreateError()
         {
             Blog newBlog = new Blog() { ID = 5, Title = null };
 
@@ -98,19 +90,25 @@ namespace HSTUTU_HFT_2021221.Test
         }
 
         [Test]
-        public void TestPostCreate()
+        public void TestPostCreateError()
         {
             Post newPost = new Post() { Id = 7, Title = "", PostContent = null};
 
             Assert.That(() => postLogic.CreatePost(newPost), Throws.TypeOf<InvalidOperationException>());
         }
 
+        [TestCase(1, null)]
+        [TestCase(1, "")]
+        [TestCase(1000, "asd")]
         [TestCase(0,"New Title")]
-        public void UpdatePost(int id, string title)
+        public void UpdatePostErrors(int id, string title)
         {
             Assert.That(() => this.postLogic.ChangePostTitle(id, title), Throws.TypeOf<Exception>());
-
-
+        }
+        [Test]
+        public void GetOneBlog()
+        {
+            Assert.That(() => this.blogLogic.GetBlogById(1), !Throws.TypeOf<Exception>());
         }
 
 
@@ -149,6 +147,7 @@ namespace HSTUTU_HFT_2021221.Test
             posts.Add(p3);
             posts.Add(p4);
             posts.Add(p5);
+            posts.Add(p6);
 
             return posts.AsQueryable();
         }

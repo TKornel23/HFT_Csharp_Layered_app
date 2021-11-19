@@ -48,7 +48,15 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public Blog GetBlogById(int id)
         {
-            return repo.GetOne(id);
+            var blog = repo.GetOne(1);
+            if (blog != null)
+            {
+                return repo.GetOne(id);
+            }
+            else
+            {
+                throw new Exception("ID nem található");
+            }
         }
 
         public IEnumerable<string> GetBlogPostTitleById(int id)

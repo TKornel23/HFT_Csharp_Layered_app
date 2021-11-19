@@ -43,7 +43,7 @@ namespace HSTUTU_HFT_2021221.Logic
             return repo.GetAll().ToList<Tag>();
         }
 
-        public Tag GetBlogById(int id)
+        public Tag GetTagById(int id)
         {
             return repo.GetOne(id);
         }

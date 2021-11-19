@@ -15,14 +15,7 @@ namespace HSTUTU_HFT_2021221.Repository
         public void ChangePostTitle(int id, string name)
         {
             Post item = _ctx.Posts.FirstOrDefault<Post>(x => x.Id == id);
-            if(item != null)
-            {
-                item.Title = name;
-            }
-            else
-            {
-                throw new Exception("Add title");
-            }
+            item.Title = name;
         }
 
         public override void Create(Post item)
