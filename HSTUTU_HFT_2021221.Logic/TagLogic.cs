@@ -24,7 +24,7 @@ namespace HSTUTU_HFT_2021221.Logic
         {
             if(newTag.Name == null || newTag.Name == "")
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Name required");
             }
             else
             {

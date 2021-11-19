@@ -14,6 +14,8 @@ namespace HSTUTU_HFT_2021221.Test
     public class TesterClass
     {
         private BlogLogic blogLogic { get; set; }
+        private PostLogic postLogic { get; set; }
+        private TagLogic tagLogic { get; set; }
 
         [SetUp]
         public void Setup()
@@ -26,7 +28,7 @@ namespace HSTUTU_HFT_2021221.Test
                 new Models.Blog()
                 {
                     ID = 1,
-                    Title = "Blog Title Uno",                   
+                    Title = "Blog Title Uno"               
                 }
              );
 
@@ -35,9 +37,84 @@ namespace HSTUTU_HFT_2021221.Test
             mockedPost.Setup(x => x.GetAll()).Returns(this.FakePostObjects);
 
             blogLogic = new BlogLogic(mockedBlog.Object, mockedPost.Object);
+            postLogic = new PostLogic(mockedPost.Object);
+            tagLogic = new TagLogic(mockedTag.Object);
         }
 
-        public IQueryable<Post> FakePostObjects()
+        [Test]
+        public void GetBlogPostTitleByIdTest()
+        {
+            var posts = this.blogLogic.GetBlogPostTitleById(1);
+            
+            Assert.That(posts.Any(x => x.Contains("Post One")), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetTagsByPostId()
+        {
+            var tags = this.postLogic.GetTagsByPostId(2);
+
+            Assert.That(tags.Any(x => x.Contains("Tag Five")), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetPostByTagId()
+        {
+            var post = this.tagLogic.GetPostByTagId(1);
+
+            Assert.That(post.Any(x => x.Contains("Tag One")), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetAllBlogTagNameById()
+        {
+            var tags = this.blogLogic.GetAllBlogTagNameById(2);
+
+            Assert.That(tags.Any(x => x.Contains("Tag Two")), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetAllBlogPostGroupByBlogTitle()
+        {
+            var postByBlog = this.blogLogic.GetAllBlogPostGroupByBlogTitle();
+
+            Assert.That(postByBlog.Any(x => x.Value.Contains("Post One")), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestTagCreate()
+        {
+            Tag newTag = new Tag() { Id = 6, Name = "" };
+
+            Assert.That(() => tagLogic.CreateTag(newTag), Throws.TypeOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void TestBlogCreate()
+        {
+            Blog newBlog = new Blog() { ID = 5, Title = null };
+
+            Assert.That(() => blogLogic.CreateBlog(newBlog), Throws.TypeOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void TestPostCreate()
+        {
+            Post newPost = new Post() { Id = 7, Title = "", PostContent = null};
+
+            Assert.That(() => postLogic.CreatePost(newPost), Throws.TypeOf<InvalidOperationException>());
+        }
+
+        [TestCase(0,"New Title")]
+        public void UpdatePost(int id, string title)
+        {
+            Assert.That(() => this.postLogic.ChangePostTitle(id, title), Throws.TypeOf<Exception>());
+
+
+        }
+
+
+        private IQueryable<Post> FakePostObjects()
         {
             Blog b1 = new Blog() { ID = 1, Title = "Title One" };
             Blog b2 = new Blog() { ID = 2, Title = "Title Two" };
@@ -63,6 +140,7 @@ namespace HSTUTU_HFT_2021221.Test
             PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6 };
             PostTag pt5 = new PostTag() { BlogId = 5, TagId = 4, PostId = 4 };
             PostTag pt6 = new PostTag() { BlogId = 6, TagId = 5, PostId = 1 };
+            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
 
             List<Post> posts = new List<Post>();
 
@@ -75,7 +153,7 @@ namespace HSTUTU_HFT_2021221.Test
             return posts.AsQueryable();
         }
 
-        public IQueryable<Tag> FakeTagObjects()
+        private IQueryable<Tag> FakeTagObjects()
         {
             Blog b1 = new Blog() { ID = 1, Title = "Title One" };
             Blog b2 = new Blog() { ID = 2, Title = "Title Two" };
@@ -101,6 +179,7 @@ namespace HSTUTU_HFT_2021221.Test
             PostTag pt4 = new PostTag() { BlogId = 3, TagId = 1, PostId = 6 };
             PostTag pt5 = new PostTag() { BlogId = 2, TagId = 4, PostId = 4 };
             PostTag pt6 = new PostTag() { BlogId = 3, TagId = 5, PostId = 1 };
+            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
 
             List<Tag> tags = new List<Tag>();
 
@@ -113,7 +192,7 @@ namespace HSTUTU_HFT_2021221.Test
             return tags.AsQueryable();
         }
 
-        public IQueryable<Blog> FakeBlogObjects()
+        private IQueryable<Blog> FakeBlogObjects()
         {
             Blog b1 = new Blog() { ID = 1, Title = "Title One" };
             Blog b2 = new Blog() { ID = 2, Title = "Title Two" };
@@ -139,6 +218,7 @@ namespace HSTUTU_HFT_2021221.Test
             PostTag pt4 = new PostTag() { BlogId = 3, TagId = 1, PostId = 6 };
             PostTag pt5 = new PostTag() { BlogId = 2, TagId = 4, PostId = 4 };
             PostTag pt6 = new PostTag() { BlogId = 3, TagId = 5, PostId = 1 };
+            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
 
             List<Blog> blogs = new List<Blog>();
 

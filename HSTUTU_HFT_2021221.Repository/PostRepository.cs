@@ -1,5 +1,6 @@
 ﻿using HSTUTU_HFT_2021221.Data;
 using HSTUTU_HFT_2021221.Models;
+using System;
 using System.Linq;
 
 namespace HSTUTU_HFT_2021221.Repository
@@ -17,6 +18,10 @@ namespace HSTUTU_HFT_2021221.Repository
             if(item != null)
             {
                 item.Title = name;
+            }
+            else
+            {
+                throw new Exception("Add title");
             }
         }
 

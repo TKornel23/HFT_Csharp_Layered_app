@@ -44,9 +44,9 @@ namespace HSTUTU_HFT_2021221.Data
             Blog b1 = new Blog() { Title = "Numero Uno" , ID = 1};
             Blog b2 = new Blog() { Title = "Numero Zwei" , ID = 2 };
 
-            Post p1 = new Post() {Id = 1, Title = "Top ten reasons why my HFT teacher is the best teacher in the world", BlogId = 1, PostContent = "lorem ipsun" };
+            Post p1 = new Post() {Id = 1, Title = "Top ten reasons why my HFT teacher is the best teacher in the world", PostContent = "lorem ipsun" };
 
-            Post p2 = new Post() {Id = 2, PostContent = "lorem ipsum dolores est", BlogId = 2, Title = "No comments" };
+            Post p2 = new Post() {Id = 2, PostContent = "lorem ipsum dolores est", Title = "No comments" };
 
             Tag t1 = new Tag() {  Name = "Tag Uno", Id = 2 };
             Tag t2 = new Tag() {  Name = "Tag Zwei", Id = 1 };

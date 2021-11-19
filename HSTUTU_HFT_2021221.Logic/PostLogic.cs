@@ -19,7 +19,7 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void CreatePost(Post newPost)
         {
-            if(newPost.Title == null ||newPost.Title == "")
+            if(newPost.Title == null || newPost.Title == "")
             {
                 throw new InvalidOperationException();               
             }
@@ -27,6 +27,20 @@ namespace HSTUTU_HFT_2021221.Logic
             {
                 repo.Create(newPost);
             }
+        }
+
+        public void ChangePostTitle(int id, string title)
+        {
+            var post = repo.GetAll().Where(x => x.Id == id);
+            if(post != null)
+            {
+                repo.ChangePostTitle(id, title);
+            }
+            else
+            {
+                throw new Exception("Post not found by index");
+            }
+            
         }
 
         public void DeletePost(int id)
