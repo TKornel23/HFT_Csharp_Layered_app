@@ -44,7 +44,7 @@ namespace HSTUTU_HFT_2021221.Logic
             return repo.GetOne(id);
         }
 
-        public IEnumerable<string> GetAllBlogPostTitleById(int id)
+        public IEnumerable<string> GetBlogPostTitleById(int id)
         {
             return repo.GetAll().Select(x => x).Where(x => x.ID == id).SelectMany(x => x.PostTags.Select(x => x.Post.Title));
         }
