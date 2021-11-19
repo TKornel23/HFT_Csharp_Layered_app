@@ -36,7 +36,7 @@ namespace HSTUTU_HFT_2021221.Test
         [Test]
         public void GetBlogPostTitleByIdTest()
         {
-            var posts = this.blogLogic.GetBlogPostTitleById(1);
+            var posts = this.blogLogic.GetBlogPostTitleById(2);
             
             Assert.That(posts.Any(x => x.Contains("Post One")), Is.EqualTo(1));
         }
@@ -68,7 +68,7 @@ namespace HSTUTU_HFT_2021221.Test
         [Test]
         public void GetAllBlogPostGroupByBlogTitle()
         {
-            var postByBlog = this.blogLogic.GetAllBlogPostGroupByBlogTitle();
+            var postByBlog = this.blogLogic.GetSumOfPostLikesByBlog();
 
             Assert.That(postByBlog.Any(x => x.Value.Contains("Post One")), Is.EqualTo(1));
         }

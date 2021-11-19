@@ -23,5 +23,6 @@ namespace HSTUTU_HFT_2021221.Models
 
         [NotMapped]
         public virtual ICollection<PostTag> PostTags { get; set; }
+        public int Likes { get; set; }
     }
 }

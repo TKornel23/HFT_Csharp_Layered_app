@@ -69,21 +69,25 @@ namespace HSTUTU_HFT_2021221.Logic
             return repo.GetAll().Select(x => x).Where(x => x.ID == id).SelectMany(x => x.PostTags.Select(x => x.Tag.Name));
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetAllBlogPostGroupByBlogTitle()
+        public IEnumerable<KeyValuePair<string, int>> GetSumOfPostLikesByBlog()
         {
             var q1 = posttrepo.GetAll();
             var q2 = repo.GetAll();
 
-            var q3 = from x in q1
-                     join y in q2 on x.BlogId equals y.ID
+            var q3 = from x in posttrepo.GetAll()
+                     join y in repo.GetAll() on x.BlogId equals y.ID
                      let joinedItem = new
                      {
-                         Key = y.Title,
-                         Values = x.Title
+                         y.Title,
+                         x.Likes
                      }
-                     select new KeyValuePair<string, string>(
-                         joinedItem.Key, joinedItem.Values
+                     group joinedItem by joinedItem.Title into g
+                     select new KeyValuePair<string, int>
+                     (
+                         g.Key, g.Sum(x => x.Likes)
                      );
+            
+            
             return q3;
         }
     }
