@@ -19,9 +19,9 @@ namespace HSTUTU_HFT_2021221
             PostRepository pt = new PostRepository(ctx);
             TagRepository tp = new TagRepository(ctx);
 
-            PostLogic logicp = new PostLogic(pt);
+            PostLogic logicp = new PostLogic(pt, tp);
             TagLogic tagicp = new TagLogic(tp);
-            BlogLogic blicp = new BlogLogic(rep, pt);
+            BlogLogic blicp = new BlogLogic(rep, pt, tp);
        
             var q1 = logicp.GetTagsByPostId(2);
             var q2 = tagicp.GetPostByTagId(1);

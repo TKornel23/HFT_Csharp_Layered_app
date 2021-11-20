@@ -12,11 +12,13 @@ namespace HSTUTU_HFT_2021221.Logic
     {
         IBlogRepository repo;
         IPostRepository posttrepo;
+        ITagRepository tagrepo;
 
-        public BlogLogic(IBlogRepository repoPar, IPostRepository posttrepo)
+        public BlogLogic(IBlogRepository repoPar, IPostRepository posttrepo, ITagRepository tagrepo)
         {
             this.repo = repoPar;
             this.posttrepo = posttrepo;
+            this.tagrepo = tagrepo;
         }
 
         public void ChangeBlogTitle(int id, string title)
@@ -61,7 +63,7 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public IEnumerable<string> GetBlogPostTitleById(int id)
         {
-            return repo.GetAll().Select(x => x).Where(x => x.ID == id).SelectMany(x => x.PostTags.Select(x => x.Post.Title));
+            return repo.GetAll().Select(x => x).Where(x => x.ID == id).SelectMany(x => x.PostTags.Select(x => x.Post.Title)).ToList();
         }
 
         public IEnumerable<string> GetAllBlogTagNameById(int id)

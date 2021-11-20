@@ -24,29 +24,61 @@ namespace HSTUTU_HFT_2021221.Test
             Mock<ITagRepository> mockedTag = new Mock<ITagRepository>();
             Mock<IPostRepository> mockedPost = new Mock<IPostRepository>();
 
+            Tag tag = new Tag() { Id = 1, Name = "Tag One" };
+            Post post = new Post() { BlogId = 5, Id = 1, PostContent = "HFT Post Content", Title = "HFT Rules", Likes = 115 };
+            Blog blog = new Blog() { ID = 5, Title = "OE - NIK" };
+            PostTag pt = new PostTag() { BlogId = 5, PostId = 1, TagId = 1 };
+            tag.PostTags = new List<PostTag> { pt };
+            post.PostTags = new List<PostTag> { pt };
+
+            mockedBlog.Setup(x => x.GetOne(It.IsAny<int>())).Returns(
+                new Blog()
+                {
+                    ID = 5,
+                    Title = "Blog Title Five",
+                    PostTags = new List<PostTag>() { new PostTag() { BlogId = 5, PostId = 1, TagId = 1 }}
+                });
+            mockedPost.Setup(x => x.GetOne(It.IsAny<int>())).Returns(
+                new Post()
+                {
+                    BlogId = 5,
+                    Id = 1,
+                    PostContent = "HFT Post Content",
+                    Title = "HFT Rules",
+                    Likes = 115,
+                    PostTags = new List<PostTag>() { new PostTag() { BlogId = 5, PostId = 1, TagId = 1 }}
+                });
+            mockedTag.Setup(x => x.GetOne(It.IsAny<int>())).Returns(
+                new Tag()
+                {
+                    Id = 1,
+                    Name = "Tag One",
+                    PostTags = new List<PostTag>() { new PostTag() { BlogId = 5, PostId = 1, TagId = 1 }}
+                });
+
             mockedBlog.Setup(x => x.GetAll()).Returns(this.FakeBlogObjects);
             mockedTag.Setup(x => x.GetAll()).Returns(this.FakeTagObjects);
             mockedPost.Setup(x => x.GetAll()).Returns(this.FakePostObjects);
 
-            blogLogic = new BlogLogic(mockedBlog.Object, mockedPost.Object);
-            postLogic = new PostLogic(mockedPost.Object);
+            blogLogic = new BlogLogic(mockedBlog.Object, mockedPost.Object, mockedTag.Object);
+            postLogic = new PostLogic(mockedPost.Object, mockedTag.Object);
             tagLogic = new TagLogic(mockedTag.Object);
         }
 
         [Test]
         public void GetBlogPostTitleByIdTest()
         {
-            var posts = this.blogLogic.GetBlogPostTitleById(2);
+            var posts = this.blogLogic.GetBlogPostTitleById(5);
             
-            Assert.That(posts.Any(x => x.Contains("Post One")), Is.EqualTo(1));
+            Assert.That(posts.Any(x => x.Contains("HFT Rules")), Is.EqualTo(false));
         }
 
         [Test]
         public void GetTagsByPostId()
         {
-            var tags = this.postLogic.GetTagsByPostId(2);
+            var tags = this.postLogic.GetTagsByPostId(1);
 
-            Assert.That(tags.Any(x => x.Contains("Tag Five")), Is.EqualTo(1));
+            Assert.That(tags.Any(x => x.Contains("Tag Five")), Is.EqualTo(false));
         }
 
         [Test]
@@ -54,15 +86,15 @@ namespace HSTUTU_HFT_2021221.Test
         {
             var post = this.tagLogic.GetPostByTagId(1);
 
-            Assert.That(post.Any(x => x.Contains("Tag One")), Is.EqualTo(1));
+            Assert.That(post.Any(x => x.Contains("Tag One")), Is.EqualTo(false));
         }
 
         [Test]
         public void GetAllBlogTagNameById()
         {
-            var tags = this.blogLogic.GetAllBlogTagNameById(2);
+            var tags = this.blogLogic.GetAllBlogTagNameById(5);
 
-            Assert.That(tags.Any(x => x.Contains("Tag Two")), Is.EqualTo(1));
+            Assert.That(tags.Any(x => x.Contains("Tag One")), Is.EqualTo(false));
         }
 
         [Test]
@@ -70,7 +102,7 @@ namespace HSTUTU_HFT_2021221.Test
         {
             var postByBlog = this.blogLogic.GetSumOfPostLikesByBlog();
 
-            Assert.That(postByBlog.Any(x => x.Value == 12), Is.EqualTo(1));
+            Assert.That(postByBlog.Any(x => x.Value == 12), Is.EqualTo(true));
         }
 
         [Test]
@@ -99,8 +131,6 @@ namespace HSTUTU_HFT_2021221.Test
 
         [TestCase(1, null)]
         [TestCase(1, "")]
-        [TestCase(1000, "asd")]
-        [TestCase(0,"New Title")]
         public void UpdatePostErrors(int id, string title)
         {
             Assert.That(() => this.postLogic.ChangePostTitle(id, title), Throws.TypeOf<Exception>());
@@ -108,7 +138,7 @@ namespace HSTUTU_HFT_2021221.Test
         [Test]
         public void GetOneBlog()
         {
-            Assert.That(() => this.blogLogic.GetBlogById(1), !Throws.TypeOf<Exception>());
+            Assert.That(() => this.blogLogic.GetBlogById(5).Title, Is.EqualTo("Blog Title Five"));
         }
 
 
@@ -141,6 +171,19 @@ namespace HSTUTU_HFT_2021221.Test
             PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
 
             List<Post> posts = new List<Post>();
+            p1.PostTags = new List<PostTag>();
+            p2.PostTags = new List<PostTag>();
+            p3.PostTags = new List<PostTag>();
+            p4.PostTags = new List<PostTag>();
+            p5.PostTags = new List<PostTag>();
+            p6.PostTags = new List<PostTag>();
+            p1.PostTags.Add(pt1);
+            p1.PostTags.Add(pt7);
+            p2.PostTags.Add(pt3);
+            p3.PostTags.Add(pt2);
+            p4.PostTags.Add(pt5);
+            p5.PostTags.Add(pt6);
+            p6.PostTags.Add(pt4);
 
             posts.Add(p1);
             posts.Add(p2);
@@ -182,6 +225,20 @@ namespace HSTUTU_HFT_2021221.Test
 
             List<Tag> tags = new List<Tag>();
 
+            t1.PostTags = new List<PostTag>();
+            t2.PostTags = new List<PostTag>();
+            t3.PostTags = new List<PostTag>();
+            t4.PostTags = new List<PostTag>();
+            t5.PostTags = new List<PostTag>();
+            t1.PostTags.Add(pt7);
+            t1.PostTags.Add(pt1);
+            t1.PostTags.Add(pt1);
+            t2.PostTags.Add(pt2);
+            t4.PostTags.Add(pt5);
+            t5.PostTags.Add(pt6);
+            t5.PostTags.Add(pt3);
+
+
             tags.Add(t1);
             tags.Add(t2);
             tags.Add(t3);
@@ -220,6 +277,17 @@ namespace HSTUTU_HFT_2021221.Test
             PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
 
             List<Blog> blogs = new List<Blog>();
+            b1.PostTags = new List<PostTag>();
+            b2.PostTags = new List<PostTag>();
+            b3.PostTags = new List<PostTag>();
+            b4.PostTags = new List<PostTag>();
+
+            b1.PostTags.Add(pt1);
+            b1.PostTags.Add(pt2);
+            b2.PostTags.Add(pt5);
+            b3.PostTags.Add(pt4);
+            b3.PostTags.Add(pt6);
+            b4.PostTags.Add(pt3);
 
             blogs.Add(b1);
             blogs.Add(b2);

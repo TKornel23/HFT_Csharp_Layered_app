@@ -11,11 +11,13 @@ namespace HSTUTU_HFT_2021221.Logic
     public class PostLogic : IPostLogic
     {
         IPostRepository repo;
+        ITagRepository tegrepo;
 
-        public PostLogic(IPostRepository repoPar)
+        public PostLogic(IPostRepository repoPar, ITagRepository tegrepo)
         {
             this.repo = repoPar;
-        }   
+            this.tegrepo = tegrepo;
+        }
 
         public void CreatePost(Post newPost)
         {
@@ -60,7 +62,7 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public IEnumerable<string> GetTagsByPostId(int id)
         {
-            return repo.GetAll().Select(x => x).Where(x => x.Id == id).SelectMany(x => x.PostTags.Select(x => x.Tag.Name));
+            return repo.GetAll().Select(x => x).Where(x => x.Id == id).SelectMany(x => x.PostTags.Select(x => x.Tag.Name)).ToList();
         }
     }
 }
