@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace HSTUTU_HFT_2021221.Repository
 {
-    public class PostRepository : Repository<Post>, IPostRepository
+    public class PostRepository : Repository<Post>, IPostRepository, IReposotiry<Post>
     {
         public PostRepository(BlogDbContext ctx) :base(ctx)
         {

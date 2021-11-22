@@ -50,7 +50,7 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public IEnumerable<string> GetPostByTagId(int id)
         {
-            return repo.GetAll().Select(x => x).Where(x => x.Id == id).SelectMany(x => x.PostTags.Select(x => x.Post.Title)).ToList();
+            return repo.GetOne(id).PostTags.Select(x => x.Post.Title).ToList();
         }
     }
 }

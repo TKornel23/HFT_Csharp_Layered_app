@@ -23,38 +23,36 @@ namespace HSTUTU_HFT_2021221.Test
             Mock<IBlogRepository> mockedBlog = new Mock<IBlogRepository>();
             Mock<ITagRepository> mockedTag = new Mock<ITagRepository>();
             Mock<IPostRepository> mockedPost = new Mock<IPostRepository>();
+            Blog blog = new Blog()
+            {
+                ID = 5,
+                Title = "Blog Title Five",
+                PostTags = new List<PostTag>()
+            };
+            Post post = new Post()
+            {
+                BlogId = 5,
+                Id = 1,
+                PostContent = "HFT Post Content",
+                Title = "HFT Rules",
+                Likes = 115,
+                PostTags = new List<PostTag>()
+            };
 
-            Tag tag = new Tag() { Id = 1, Name = "Tag One" };
-            Post post = new Post() { BlogId = 5, Id = 1, PostContent = "HFT Post Content", Title = "HFT Rules", Likes = 115 };
-            Blog blog = new Blog() { ID = 5, Title = "OE - NIK" };
-            PostTag pt = new PostTag() { BlogId = 5, PostId = 1, TagId = 1 };
-            tag.PostTags = new List<PostTag> { pt };
-            post.PostTags = new List<PostTag> { pt };
+            Tag tag = new Tag()
+            {
+                Id = 1,
+                Name = "Tag One",
+                PostTags = new List<PostTag>()
+            };
+            blog.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
+            tag.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
+            post.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
+            post.Blog = blog;
 
-            mockedBlog.Setup(x => x.GetOne(It.IsAny<int>())).Returns(
-                new Blog()
-                {
-                    ID = 5,
-                    Title = "Blog Title Five",
-                    PostTags = new List<PostTag>() { new PostTag() { BlogId = 5, PostId = 1, TagId = 1 }}
-                });
-            mockedPost.Setup(x => x.GetOne(It.IsAny<int>())).Returns(
-                new Post()
-                {
-                    BlogId = 5,
-                    Id = 1,
-                    PostContent = "HFT Post Content",
-                    Title = "HFT Rules",
-                    Likes = 115,
-                    PostTags = new List<PostTag>() { new PostTag() { BlogId = 5, PostId = 1, TagId = 1 }}
-                });
-            mockedTag.Setup(x => x.GetOne(It.IsAny<int>())).Returns(
-                new Tag()
-                {
-                    Id = 1,
-                    Name = "Tag One",
-                    PostTags = new List<PostTag>() { new PostTag() { BlogId = 5, PostId = 1, TagId = 1 }}
-                });
+            mockedBlog.Setup(x => x.GetOne(It.IsAny<int>())).Returns(blog);
+            mockedPost.Setup(x => x.GetOne(It.IsAny<int>())).Returns(post);
+            mockedTag.Setup(x => x.GetOne(It.IsAny<int>())).Returns(tag);
 
             mockedBlog.Setup(x => x.GetAll()).Returns(this.FakeBlogObjects);
             mockedTag.Setup(x => x.GetAll()).Returns(this.FakeTagObjects);
@@ -77,7 +75,7 @@ namespace HSTUTU_HFT_2021221.Test
         public void GetTagsByPostId()
         {
             var tags = this.postLogic.GetTagsByPostId(1);
-
+            
             Assert.That(tags.Any(x => x.Contains("Tag Five")), Is.EqualTo(false));
         }
 

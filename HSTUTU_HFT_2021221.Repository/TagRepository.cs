@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace HSTUTU_HFT_2021221.Repository
 {
-    public class TagRepository : Repository<Tag>, ITagRepository
+    public class TagRepository : Repository<Tag>, ITagRepository, IReposotiry<Tag>
     {
         public TagRepository(BlogDbContext ctx) : base(ctx)
         {
