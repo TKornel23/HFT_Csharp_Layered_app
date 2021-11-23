@@ -71,10 +71,10 @@ namespace HSTUTU_HFT_2021221.Test
             Assert.That(posts.Any(x => x.Contains("HFT Rules")), Is.EqualTo(false));
         }
 
-        [Test]
-        public void GetTagsByPostId()
+        [TestCase(1)]
+        public void GetTagsByPostId(int id)
         {
-            var tags = this.postLogic.GetTagsByPostId(1);
+            var tags = this.postLogic.GetTagsByPostId(id);
             
             Assert.That(tags.Any(x => x.Contains("Tag Five")), Is.EqualTo(false));
         }
@@ -160,13 +160,13 @@ namespace HSTUTU_HFT_2021221.Test
             Tag t4 = new Tag() { Id = 4, Name = "Tag Four" };
             Tag t5 = new Tag() { Id = 5, Name = "Tag Five" };
 
-            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
-            PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3 };
-            PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2 };
-            PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6 };
-            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4 };
-            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5};
-            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
+            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
+            PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3, Blog = b2, Post = p3, Tag = t2 };
+            PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2, Blog = b3, Tag = t5, Post = p2 };
+            PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6, Blog = b4, Tag = t1, Post = p6 };
+            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4, Blog = b3, Post = p4, Tag = t4 };
+            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5, Blog = b4, Tag = t5, Post = p5};
+            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
 
             List<Post> posts = new List<Post>();
             p1.PostTags = new List<PostTag>();
@@ -213,13 +213,13 @@ namespace HSTUTU_HFT_2021221.Test
             Tag t4 = new Tag() { Id = 4, Name = "Tag Four" };
             Tag t5 = new Tag() { Id = 5, Name = "Tag Five" };
 
-            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
-            PostTag pt2 = new PostTag() { BlogId = 1, TagId = 2, PostId = 3 };
-            PostTag pt3 = new PostTag() { BlogId = 4, TagId = 5, PostId = 2 };
-            PostTag pt4 = new PostTag() { BlogId = 3, TagId = 1, PostId = 6 };
-            PostTag pt5 = new PostTag() { BlogId = 2, TagId = 4, PostId = 4 };
-            PostTag pt6 = new PostTag() { BlogId = 3, TagId = 5, PostId = 1 };
-            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
+            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
+            PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3, Blog = b2, Post = p3, Tag = t2 };
+            PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2, Blog = b3, Tag = t5, Post = p2 };
+            PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6, Blog = b4, Tag = t1, Post = p6 };
+            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4, Blog = b3, Post = p4, Tag = t4 };
+            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5, Blog = b4, Tag = t5, Post = p5 };
+            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
 
             List<Tag> tags = new List<Tag>();
 
@@ -266,13 +266,13 @@ namespace HSTUTU_HFT_2021221.Test
             Tag t4 = new Tag() { Id = 4, Name = "Tag Four" };
             Tag t5 = new Tag() { Id = 5, Name = "Tag Five" };
 
-            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
-            PostTag pt2 = new PostTag() { BlogId = 1, TagId = 2, PostId = 3 };
-            PostTag pt3 = new PostTag() { BlogId = 4, TagId = 5, PostId = 2 };
-            PostTag pt4 = new PostTag() { BlogId = 3, TagId = 1, PostId = 6 };
-            PostTag pt5 = new PostTag() { BlogId = 2, TagId = 4, PostId = 4 };
-            PostTag pt6 = new PostTag() { BlogId = 3, TagId = 5, PostId = 1 };
-            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1 };
+            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
+            PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3, Blog = b2, Post = p3, Tag = t2 };
+            PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2, Blog = b3, Tag = t5, Post = p2 };
+            PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6, Blog = b4, Tag = t1, Post = p6 };
+            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4, Blog = b3, Post = p4, Tag = t4 };
+            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5, Blog = b4, Tag = t5, Post = p5 };
+            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
 
             List<Blog> blogs = new List<Blog>();
             b1.PostTags = new List<PostTag>();
