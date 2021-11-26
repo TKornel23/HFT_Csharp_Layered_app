@@ -1,33 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HSTUTU_HFT_2021221.Data;
-using HSTUTU_HFT_2021221.Models;
-using Microsoft.EntityFrameworkCore;
-using HSTUTU_HFT_2021221.Repository;
-using HSTUTU_HFT_2021221.Logic;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HSTUTU_HFT_2021221
 {
-    class Program
+    class RestService
     {
-        static void Main(string[] args)
+        HttpClient client;
+
+        public RestService(string baseurl)
         {
-            BlogDbContext ctx = new BlogDbContext();
-
-            BlogRepository rep = new BlogRepository(ctx);
-            PostRepository pt = new PostRepository(ctx);
-            TagRepository tp = new TagRepository(ctx);
-
-            PostLogic logicp = new PostLogic(pt, tp);
-            TagLogic tagicp = new TagLogic(tp);
-            BlogLogic blicp = new BlogLogic(rep, pt, tp);
-       
-            var q1 = logicp.GetTagsByPostId(2);
-            var q2 = tagicp.GetPostByTagId(1);
-            var q3 = blicp.GetBlogPostTitleById(1);
-            var q4 = blicp.GetAllBlogTagNameById(2);
-            var q5 = blicp.GetSumOfPostLikesByBlog();
+            Init(baseurl);
         }
+
+        private void Init(string baseurl)
+        {
+            client = new HttpClient();
+            client.BaseAddress = new Uri(baseurl);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue
+                ("application/json"));
+            try
+            {
+                client.GetAsync("").GetAwaiter().GetResult();
+            }
+            catch (HttpRequestException)
+            {
+                throw new ArgumentException("Endpoint is not available!");
+            }
+
+        }
+
+        public List<T> Get<T>(string endpoint)
+        {
+            List<T> items = new List<T>();
+            HttpResponseMessage response = client.GetAsync(endpoint).GetAwaiter().GetResult();
+            if (response.IsSuccessStatusCode)
+            {
+                items = response.Content.ReadAsAsync<List<T>>().GetAwaiter().GetResult();
+            }
+            return items;
+        }
+
+        public T GetSingle<T>(string endpoint)
+        {
+            T item = default(T);
+            HttpResponseMessage response = client.GetAsync(endpoint).GetAwaiter().GetResult();
+            if (response.IsSuccessStatusCode)
+            {
+                item = response.Content.ReadAsAsync<T>().GetAwaiter().GetResult();
+            }
+            return item;
+        }
+
+        public T Get<T>(int id, string endpoint)
+        {
+            T item = default(T);
+            HttpResponseMessage response = client.GetAsync(endpoint + "/" + id.ToString()).GetAwaiter().GetResult();
+            if (response.IsSuccessStatusCode)
+            {
+                item = response.Content.ReadAsAsync<T>().GetAwaiter().GetResult();
+            }
+            return item;
+        }
+
+        public void Post<T>(T item, string endpoint)
+        {
+            HttpResponseMessage response =
+                client.PostAsJsonAsync(endpoint, item).GetAwaiter().GetResult();
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public void Delete(int id, string endpoint)
+        {
+            HttpResponseMessage response =
+                client.DeleteAsync(endpoint + "/" + id.ToString()).GetAwaiter().GetResult();
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public void Put<T>(T item, string endpoint)
+        {
+            HttpResponseMessage response =
+                client.PutAsJsonAsync(endpoint, item).GetAwaiter().GetResult();
+
+
+            response.EnsureSuccessStatusCode();
+        }
+
     }
 }
