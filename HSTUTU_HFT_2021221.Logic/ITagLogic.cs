@@ -9,8 +9,8 @@ namespace HSTUTU_HFT_2021221.Logic
     public interface ITagLogic
     {
         Tag GetTagById(int id);
-        void ChangeTagName(int id, string title);
-        IList<Tag> GetAllBlogs();
+        void UpdateTag(Tag tag);
+        IList<Tag> GetAllTags();
         void DeleteTag(int id);
         void CreateTag(Tag newBlog);
     }

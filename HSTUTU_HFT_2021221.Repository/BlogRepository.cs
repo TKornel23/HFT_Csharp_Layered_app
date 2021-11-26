@@ -14,7 +14,7 @@ namespace HSTUTU_HFT_2021221.Repository
 
         public void ChangeBlogTitle(Blog blog)
         {
-            var currentBlog = _ctx.Blogs.SingleOrDefault(x => x.ID == blog.ID);
+            var currentBlog = _ctx.Blogs.FirstOrDefault(x => x.ID == blog.ID);
             currentBlog.Title = blog.Title;
             currentBlog.PostTags = blog.PostTags;
         }

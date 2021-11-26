@@ -11,17 +11,10 @@ namespace HSTUTU_HFT_2021221.Repository
         {
         }
 
-        public void ChangeTagName(int id, string name)
+        public void UpdateTag(Tag tag)
         {
-            Tag item = _ctx.Tags.FirstOrDefault<Tag>(x => x.Id == id);
-            if(item != null)
-            {
-                item.Name = name;
-            }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
+            var currentTag = _ctx.Tags.FirstOrDefault(x => x.Id == tag.Id);
+            currentTag = tag;
         }
 
         public override void Create(Tag item)

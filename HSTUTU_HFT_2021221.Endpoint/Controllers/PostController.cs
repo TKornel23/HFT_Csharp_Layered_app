@@ -9,44 +9,44 @@ using System.Threading.Tasks;
 
 namespace HSTUTU_HFT_2021221.Endpoint.Controllers
 {
-    [Route("/blog")]
+    [Route("/post")]
     [ApiController]
-    public class BlogController : ControllerBase
+    public class PostController : ControllerBase
     {
-        IBlogLogic blogLogic;
+        IPostLogic postLogic;
 
-        public BlogController(IBlogLogic blogLogic)
+        public PostController(IPostLogic postLogic)
         {
-            this.blogLogic = blogLogic;
+            this.postLogic = postLogic;
         }
         [HttpGet]
-        public IEnumerable<Blog> Get()
+        public IEnumerable<Post> Get()
         {
-            return blogLogic.GetAllBlogs();
+            return postLogic.GetAllPosts();
         }
 
         [HttpGet("{id}")]
-        public Blog Get(int id)
+        public Post Get(int id)
         {
-            return blogLogic.GetBlogById(id);
+            return postLogic.GetOnePost(id);
         }
 
         [HttpPost]
-        public void Post([FromBody] Blog newBlog)
+        public void Post([FromBody] Post newPost)
         {
-            blogLogic.CreateBlog(newBlog);
+            postLogic.CreatePost(newPost);
         }
 
         [HttpPut]
-        public void Put([FromBody] Blog blog)
+        public void Put([FromBody] Post post)
         {
-            blogLogic.ChangeBlogTitle(blog);
+            postLogic.ChangePostTitle(post);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            blogLogic.DeleteBlog(id);
+            postLogic.DeletePost(id);
         }
     }
 }

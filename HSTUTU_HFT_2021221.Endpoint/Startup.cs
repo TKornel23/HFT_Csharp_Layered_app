@@ -1,8 +1,10 @@
 using HSTUTU_HFT_2021221.Data;
 using HSTUTU_HFT_2021221.Logic;
+using HSTUTU_HFT_2021221.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -23,7 +25,10 @@ namespace HSTUTU_HFT_2021221.Endpoint
             services.AddTransient<IBlogLogic, BlogLogic>();
             services.AddTransient<IPostLogic, PostLogic>();
             services.AddTransient<ITagLogic, TagLogic>();
-            services.AddTransient<BlogDbContext, BlogDbContext>();
+            services.AddTransient<IBlogRepository, BlogRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddDbContext<BlogDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,10 +43,7 @@ namespace HSTUTU_HFT_2021221.Endpoint
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }

@@ -4,6 +4,6 @@ namespace HSTUTU_HFT_2021221.Repository
 {
     public interface ITagRepository : IReposotiry<Tag>
     {
-        void ChangeTagName(int id, string name);
+        void UpdateTag(Tag tag);
     }
 }

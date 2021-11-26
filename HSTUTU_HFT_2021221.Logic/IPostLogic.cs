@@ -13,5 +13,6 @@ namespace HSTUTU_HFT_2021221.Logic
         IList<Post> GetAllPosts();
         void DeletePost(int id);
         void CreatePost(Post newPost);
+        void ChangePostTitle(Post post);
     }
 }

@@ -31,18 +31,9 @@ namespace HSTUTU_HFT_2021221.Logic
             }
         }
 
-        public void ChangePostTitle(int id, string title)
+        public void ChangePostTitle(Post post)
         {
-            var post = repo.GetOne(id);
-            if(post != null && title != "" && title != null)
-            {
-                repo.ChangePostTitle(id, title);
-            }
-            else
-            {
-                throw new Exception("Post not found by index");
-            }
-            
+            repo.UpdatePost(post); 
         }
 
         public void DeletePost(int id)

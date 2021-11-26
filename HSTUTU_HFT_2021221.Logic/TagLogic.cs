@@ -15,9 +15,9 @@ namespace HSTUTU_HFT_2021221.Logic
             this.repo = repo;
         }
 
-        public void ChangeTagName(int id, string title)
+        public void UpdateTag(Tag tag)
         {
-            repo.ChangeTagName(id, title);
+            repo.UpdateTag(tag);
         }
 
         public void CreateTag(Tag newTag)
@@ -38,7 +38,7 @@ namespace HSTUTU_HFT_2021221.Logic
             repo.Delete(id);
         }
 
-        public IList<Tag> GetAllBlogs()
+        public IList<Tag> GetAllTags()
         {
             return repo.GetAll().ToList<Tag>();
         }

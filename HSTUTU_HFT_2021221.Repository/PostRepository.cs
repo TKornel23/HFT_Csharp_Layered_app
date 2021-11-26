@@ -12,10 +12,11 @@ namespace HSTUTU_HFT_2021221.Repository
 
         }
 
-        public void ChangePostTitle(int id, string name)
+        public void UpdatePost(Post post)
         {
-            Post item = _ctx.Posts.FirstOrDefault<Post>(x => x.Id == id);
-            item.Title = name;
+            var currentBlog = _ctx.Blogs.FirstOrDefault(x => x.ID == post.Id);
+            currentBlog.Title = post.Title;
+            currentBlog.PostTags = post.PostTags;
         }
 
         public override void Create(Post item)
