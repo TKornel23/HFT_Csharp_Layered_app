@@ -13,5 +13,6 @@ namespace HSTUTU_HFT_2021221.Logic
         IList<Tag> GetAllTags();
         void DeleteTag(int id);
         void CreateTag(Tag newBlog);
+        public IEnumerable<string> GetPostByTagId(int id);
     }
 }

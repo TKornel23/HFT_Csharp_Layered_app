@@ -14,5 +14,6 @@ namespace HSTUTU_HFT_2021221.Logic
         void DeletePost(int id);
         void CreatePost(Post newPost);
         void ChangePostTitle(Post post);
+        public IEnumerable<string> GetTagsByPostId(int id);
     }
 }
