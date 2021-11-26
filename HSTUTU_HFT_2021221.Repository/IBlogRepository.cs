@@ -4,6 +4,6 @@ namespace HSTUTU_HFT_2021221.Repository
 {
     public interface IBlogRepository : IReposotiry<Blog>
     {
-        void ChangeBlogTitle(int id, string title);
+        void ChangeBlogTitle(Blog blog);
     }
 }

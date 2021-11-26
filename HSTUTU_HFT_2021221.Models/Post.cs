@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace HSTUTU_HFT_2021221.Models
@@ -15,6 +16,7 @@ namespace HSTUTU_HFT_2021221.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public virtual Blog Blog { get; set; }
         [ForeignKey(nameof(Blog))]
         public int BlogId { get; set; }
@@ -22,6 +24,7 @@ namespace HSTUTU_HFT_2021221.Models
         public string PostContent { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual ICollection<PostTag> PostTags { get; set; }
         public int Likes { get; set; }
     }

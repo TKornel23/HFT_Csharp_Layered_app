@@ -12,18 +12,11 @@ namespace HSTUTU_HFT_2021221.Repository
 
         }
 
-        public void ChangeBlogTitle(int id, string title)
+        public void ChangeBlogTitle(Blog blog)
         {
-            Blog item = _ctx.Blogs.FirstOrDefault<Blog>(x => x.ID == id);
-            if(item != null)
-            {
-                item.Title = title;
-                _ctx.SaveChanges();
-            }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
+            var currentBlog = _ctx.Blogs.SingleOrDefault(x => x.ID == blog.ID);
+            currentBlog.Title = blog.Title;
+            currentBlog.PostTags = blog.PostTags;
         }
 
         public override void Create(Blog item)

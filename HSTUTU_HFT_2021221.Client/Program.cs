@@ -28,7 +28,6 @@ namespace HSTUTU_HFT_2021221
             var q3 = blicp.GetBlogPostTitleById(1);
             var q4 = blicp.GetAllBlogTagNameById(2);
             var q5 = blicp.GetSumOfPostLikesByBlog();
-            ;
         }
     }
 }

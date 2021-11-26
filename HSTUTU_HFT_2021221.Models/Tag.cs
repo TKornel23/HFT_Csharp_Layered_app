@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace HSTUTU_HFT_2021221.Models
@@ -17,6 +18,7 @@ namespace HSTUTU_HFT_2021221.Models
         public string Name { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
 
         public virtual ICollection<PostTag> PostTags { get; set; }
     }

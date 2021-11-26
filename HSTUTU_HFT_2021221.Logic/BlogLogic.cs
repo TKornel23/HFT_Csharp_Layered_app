@@ -21,9 +21,9 @@ namespace HSTUTU_HFT_2021221.Logic
             this.tagrepo = tagrepo;
         }
 
-        public void ChangeBlogTitle(int id, string title)
+        public void ChangeBlogTitle(Blog blog)
         {
-            repo.ChangeBlogTitle(id, title);
+            repo.ChangeBlogTitle(blog);
         }
 
         public void CreateBlog(Blog newBlog)

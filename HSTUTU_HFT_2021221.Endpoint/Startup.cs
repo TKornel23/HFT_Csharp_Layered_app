@@ -1,3 +1,5 @@
+using HSTUTU_HFT_2021221.Data;
+using HSTUTU_HFT_2021221.Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +18,12 @@ namespace HSTUTU_HFT_2021221.Endpoint
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+
+            services.AddTransient<IBlogLogic, BlogLogic>();
+            services.AddTransient<IPostLogic, PostLogic>();
+            services.AddTransient<ITagLogic, TagLogic>();
+            services.AddTransient<BlogDbContext, BlogDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

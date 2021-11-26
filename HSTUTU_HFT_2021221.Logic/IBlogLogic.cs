@@ -10,7 +10,7 @@ namespace HSTUTU_HFT_2021221.Logic
     public interface IBlogLogic
     {
         Blog GetBlogById(int id);
-        void ChangeBlogTitle(int id, string title);
+        void ChangeBlogTitle(Blog blog);
         IList<Blog> GetAllBlogs();
         void DeleteBlog(int id);
         void CreateBlog(Blog newBlog);
