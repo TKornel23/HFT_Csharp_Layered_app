@@ -14,7 +14,9 @@ namespace HSTUTU_HFT_2021221.Repository
         public void UpdateTag(Tag tag)
         {
             var currentTag = _ctx.Tags.FirstOrDefault(x => x.Id == tag.Id);
-            currentTag = tag;
+            currentTag.Name = tag.Name;
+            currentTag.PostTags = tag.PostTags;
+            _ctx.SaveChanges();
         }
 
         public override void Create(Tag item)

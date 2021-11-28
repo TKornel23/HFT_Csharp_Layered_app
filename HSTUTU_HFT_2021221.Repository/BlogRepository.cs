@@ -16,7 +16,7 @@ namespace HSTUTU_HFT_2021221.Repository
         {
             var currentBlog = _ctx.Blogs.FirstOrDefault(x => x.ID == blog.ID);
             currentBlog.Title = blog.Title;
-            currentBlog.PostTags = blog.PostTags;
+            _ctx.SaveChanges();
         }
 
         public override void Create(Blog item)

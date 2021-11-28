@@ -70,7 +70,7 @@ namespace HSTUTU_HFT_2021221.Client
 
         public void Post<T>(T item, string endpoint)
         {
-            HttpResponseMessage response =
+            HttpResponseMessage response = 
                 client.PostAsJsonAsync(endpoint, item).GetAwaiter().GetResult();
 
             response.EnsureSuccessStatusCode();
