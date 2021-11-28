@@ -143,6 +143,12 @@ namespace HSTUTU_HFT_2021221
             rest.Put<Blog>(updatedBlog, "/blog");
             rest.Put<Tag>(updatedTag, "/tag/");
             rest.Put<Post>(updatedPost, "/post/");
+
+            var blogposttile =  rest.Get<IEnumerable<string>>(2, "stat/blogposttile");
+            var blogtagname = rest.Get<IEnumerable<string>>(2, "stat/blogtagname");
+            var likesum = rest.GetSingle<IEnumerable<KeyValuePair<string, int>>>("stat/likesum");
+            var tagsbypost = rest.Get<IEnumerable<string>>(3, "stat/tagsbypost");
+            var postsbytag = rest.Get<IEnumerable<string>>(3, "stat/postsbytag");
         }
     }
 }
