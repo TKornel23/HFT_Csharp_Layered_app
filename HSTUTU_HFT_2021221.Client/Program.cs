@@ -420,8 +420,6 @@ namespace HSTUTU_HFT_2021221
                         int postId = int.Parse(Console.ReadLine());
                         Console.WriteLine("Title of Post: ");
                         string postTitle = Console.ReadLine();
-                        Console.WriteLine("Please enter the ID of the Post: ");
-                        int id = int.Parse(Console.ReadLine());
                         Console.WriteLine("Enter the count of likes: ");
                         int likes = int.Parse(Console.ReadLine());
                         Console.WriteLine("Write down the content os the Post: ");
