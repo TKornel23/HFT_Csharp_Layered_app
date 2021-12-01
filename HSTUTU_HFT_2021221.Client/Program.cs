@@ -26,7 +26,7 @@ namespace HSTUTU_HFT_2021221
             Console.Clear();
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) C-CREATE (blog,post,tag)...");
-            Console.WriteLine("2) R-READ (FROM blog,post,tag)...");
+            Console.WriteLine("2) R-READ ALL (FROM blog,post,tag)...");
             Console.WriteLine("3) U-UPDATE (FROM existing database data)...");
             Console.WriteLine("4) D-DELETE (FROM existing database data)...");
             Console.WriteLine("5) Write Posts by Blog Id...");
