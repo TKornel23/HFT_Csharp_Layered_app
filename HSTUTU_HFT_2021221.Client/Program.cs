@@ -19,7 +19,7 @@ namespace HSTUTU_HFT_2021221
             while (showMenu)
             {
                 showMenu = MainMenu();
-            }           
+            }
         }
         private static bool MainMenu()
         {
@@ -29,7 +29,12 @@ namespace HSTUTU_HFT_2021221
             Console.WriteLine("2) R-READ (FROM blog,post,tag)...");
             Console.WriteLine("3) U-UPDATE (FROM existing database data)...");
             Console.WriteLine("4) D-DELETE (FROM existing database data)...");
-            Console.WriteLine("5) Exit");
+            Console.WriteLine("5) Write Posts by Blog Id...");
+            Console.WriteLine("6) Write tags by Blog Id...");
+            Console.WriteLine("7) Write out Likes count groupped by blog");
+            Console.WriteLine("8) Write out all the post's tag by id");
+            Console.WriteLine("9) Write out all the tag's post by id");
+            Console.WriteLine("10) Exit");
             Console.Write("\r\nSelect an option: ");
 
             switch (Console.ReadLine())
@@ -47,12 +52,102 @@ namespace HSTUTU_HFT_2021221
                     Delete();
                     return true;
                 case "5":
+                    blogposttile();
+                    return true;
+                case "6":
+                    blogtagname();
+                    return true;
+                case "7":
+                    likesum();
+                    return true;
+                case "8":
+                    tagsbypost();
+                    return true;
+                case "9":
+                    postsbytag();
+                    return true;
+                case "10":
                     return false;
                 default:
                     MainMenu();
                     return true;
             }
         }
+
+        private static void blogposttile()
+        {
+            Console.Clear();
+            RestService rest = new RestService("http://localhost:57125");
+            Console.WriteLine("Write down a blog ID: ");
+            string id = Console.ReadLine();
+            var item = rest.GetSingle<IEnumerable<string>>("/stat/blogposttile/"+id);
+            foreach (var post in item)
+            {
+                Console.WriteLine(post);
+            }
+            Console.ReadKey();
+            MainMenu();
+        }
+
+        private static void blogtagname()
+        {
+            Console.Clear();
+            RestService rest = new RestService("http://localhost:57125");
+            Console.WriteLine("Write down a blog ID: ");
+            string id = Console.ReadLine();
+            var item = rest.GetSingle<IEnumerable<string>>("/stat/blogtagname/" + id);
+            foreach (var tag in item)
+            {
+                Console.WriteLine(tag);
+            }
+            Console.ReadKey();
+            MainMenu();
+        }
+
+        private static void likesum()
+        {
+            Console.Clear();
+            RestService rest = new RestService("http://localhost:57125");
+            var item = rest.GetSingle<IEnumerable<KeyValuePair<string, int>>>("/stat/likesum/");
+            foreach (var tag in item)
+            {
+                Console.WriteLine(tag.Key);
+                Console.WriteLine(tag.Value);
+            }
+            Console.ReadKey();
+            MainMenu();
+        }
+
+        private static void tagsbypost()
+        {
+            Console.Clear();
+            RestService rest = new RestService("http://localhost:57125");
+            Console.WriteLine("Write down a blog ID: ");
+            string id = Console.ReadLine();
+            var item = rest.GetSingle<IEnumerable<string>>("/stat/tagsbypost/"+id);
+            foreach (var tag in item)
+            {
+                Console.WriteLine(tag);
+            }
+            Console.ReadKey();
+            MainMenu();
+        }
+
+        private static void postsbytag()
+        {
+            Console.Clear();
+            RestService rest = new RestService("http://localhost:57125");
+            Console.WriteLine("Write down a blog ID: ");
+            string id = Console.ReadLine();
+            var item = rest.GetSingle<IEnumerable<string>>("/stat/postsbytag/" + id);
+            foreach (var tag in item)
+            {
+                Console.WriteLine(tag);
+            }
+            Console.ReadKey();
+            MainMenu();
+        }
+
 
         private static void Delete()
         {
