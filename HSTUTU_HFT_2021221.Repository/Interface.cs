@@ -10,7 +10,7 @@ namespace HSTUTU_HFT_2021221.Repository
     {
         T GetOne(int id);
         IQueryable<T> GetAll();
-        void Update(T t, int id);
+        void Update(T t);
         void Delete(int id);
         void Create(T item);
     }

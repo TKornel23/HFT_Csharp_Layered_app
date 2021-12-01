@@ -15,6 +15,11 @@ namespace HSTUTU_HFT_2021221.Test
             throw new NotImplementedException();
         }
 
+        public void ChangeBlogTitle(Blog blog)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Create(Blog item)
         {
             throw new NotImplementedException();

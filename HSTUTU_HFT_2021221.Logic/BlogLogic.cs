@@ -12,18 +12,16 @@ namespace HSTUTU_HFT_2021221.Logic
     {
         IBlogRepository repo;
         IPostRepository posttrepo;
-        ITagRepository tagrepo;
 
-        public BlogLogic(IBlogRepository repoPar, IPostRepository posttrepo, ITagRepository tagrepo)
+        public BlogLogic(IBlogRepository repoPar, IPostRepository posttrepo)
         {
             this.repo = repoPar;
             this.posttrepo = posttrepo;
-            this.tagrepo = tagrepo;
         }
 
-        public void ChangeBlogTitle(Blog blog)
+        public void Update(Blog blog)
         {
-            repo.ChangeBlogTitle(blog);
+            repo.Update(blog);
         }
 
         public void CreateBlog(Blog newBlog)
@@ -88,7 +86,6 @@ namespace HSTUTU_HFT_2021221.Logic
                      (
                          g.Key, g.Sum(x => x.Likes)
                      );
-     
             return q3;
         }
     }

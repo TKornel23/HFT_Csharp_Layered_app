@@ -17,7 +17,7 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void UpdateTag(Tag tag)
         {
-            repo.UpdateTag(tag);
+            repo.Update(tag);
         }
 
         public void CreateTag(Tag newTag)

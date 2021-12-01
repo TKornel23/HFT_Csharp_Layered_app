@@ -72,5 +72,10 @@ namespace HSTUTU_HFT_2021221.Test
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateTag(Tag tag)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

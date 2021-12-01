@@ -12,10 +12,12 @@ namespace HSTUTU_HFT_2021221.Repository
 
         }
 
-        public void UpdatePost(Post post)
+        public override void Update(Post post)
         {
             var currentBlog = _ctx.Posts.FirstOrDefault(x => x.Id == post.Id);
             currentBlog.Title = post.Title;
+            currentBlog.Likes = post.Likes;
+            currentBlog.PostContent = post.PostContent;
             _ctx.SaveChanges();
         }
 

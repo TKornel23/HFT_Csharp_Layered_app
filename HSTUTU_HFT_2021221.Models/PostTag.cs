@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -27,6 +28,7 @@ namespace HSTUTU_HFT_2021221.Models
         [NotMapped]
         [JsonIgnore]
         public virtual Blog Blog { get; set; }
+        [ForeignKey(nameof(Blog))]
         public int BlogId { get; set; }
     }
 }

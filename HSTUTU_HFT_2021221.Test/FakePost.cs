@@ -72,5 +72,10 @@ namespace HSTUTU_HFT_2021221.Test
         {
             throw new NotImplementedException();
         }
+
+        public void UpdatePost(Post post)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

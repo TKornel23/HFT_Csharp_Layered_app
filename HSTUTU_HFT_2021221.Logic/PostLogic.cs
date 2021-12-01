@@ -33,7 +33,7 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void ChangePostTitle(Post post)
         {
-            repo.UpdatePost(post); 
+            repo.Update(post); 
         }
 
         public void DeletePost(int id)

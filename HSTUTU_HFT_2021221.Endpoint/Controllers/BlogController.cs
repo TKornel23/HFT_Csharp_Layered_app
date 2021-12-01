@@ -40,7 +40,7 @@ namespace HSTUTU_HFT_2021221.Endpoint.Controllers
         [HttpPut]
         public void Put([FromBody] Blog blog)
         {
-            blogLogic.ChangeBlogTitle(blog);
+            blogLogic.Update(blog);
         }
 
         [HttpDelete("{id}")]

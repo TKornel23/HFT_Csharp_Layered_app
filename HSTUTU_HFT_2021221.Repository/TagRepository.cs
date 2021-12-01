@@ -11,11 +11,10 @@ namespace HSTUTU_HFT_2021221.Repository
         {
         }
 
-        public void UpdateTag(Tag tag)
+        public override void Update(Tag tag)
         {
             var currentTag = _ctx.Tags.FirstOrDefault(x => x.Id == tag.Id);
             currentTag.Name = tag.Name;
-            currentTag.PostTags = tag.PostTags;
             _ctx.SaveChanges();
         }
 

@@ -15,10 +15,7 @@ namespace HSTUTU_HFT_2021221.Repository
             this._ctx = ctx;
         }
 
-        public void Update(T t, int id)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Update(T t);
 
         public abstract void Create(T item);
 

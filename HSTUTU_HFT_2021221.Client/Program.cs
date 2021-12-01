@@ -22,131 +22,131 @@ namespace HSTUTU_HFT_2021221
             }
 
 
-            //READ ALL
-            var blogs = rest.Get<Blog>("/blog");
-            var tags = rest.Get<Tag>("/tag");
-            var posts = rest.Get<Post>("/post");
-           ///READ ONE
-            var blog = rest.Get<Blog>(1,"/blog");
-            var tag = rest.Get<Blog>(1,"/tag");
-            var post = rest.Get<Blog>(1,"/post");
-            //POST
-            Blog newBlog = new Blog()
-            {
-                Title = "Blog three",
-                PostTags = new List<PostTag>()
-            };
-            Post newPost = new Post()
-            {
-                Likes = 789,
-                Title = "Post Three",
-                PostContent = "Lorem ipsum dolores est",
-                PostTags = new List<PostTag>()
-            };
-            Tag newTag = new Tag()
-            {
-                Name = "Tag Four",
-                PostTags = new List<PostTag>()
-            };
+           // //READ ALL
+           // var blogs = rest.Get<Blog>("/blog");
+           // var tags = rest.Get<Tag>("/tag");
+           // var posts = rest.Get<Post>("/post");
+           /////READ ONE
+           // var blog = rest.Get<Blog>(1,"/blog");
+           // var tag = rest.Get<Blog>(1,"/tag");
+           // var post = rest.Get<Blog>(1,"/post");
+           // //POST
+           // Blog newBlog = new Blog()
+           // {
+           //     Title = "Blog three",
+           //     PostTags = new List<PostTag>()
+           // };
+           // Post newPost = new Post()
+           // {
+           //     Likes = 789,
+           //     Title = "Post Three",
+           //     PostContent = "Lorem ipsum dolores est",
+           //     PostTags = new List<PostTag>()
+           // };
+           // Tag newTag = new Tag()
+           // {
+           //     Name = "Tag Four",
+           //     PostTags = new List<PostTag>()
+           // };
 
-            PostTag newPostTag = new PostTag()
-            {
-                Blog = newBlog,
-                Tag = newTag,
-                Post = newPost,
-                BlogId = 3,
-                PostId = 3,
-                TagId = 4
-            };
+           // PostTag newPostTag = new PostTag()
+           // {
+           //     Blog = newBlog,
+           //     Tag = newTag,
+           //     Post = newPost,
+           //     BlogId = 3,
+           //     PostId = 3,
+           //     TagId = 4
+           // };
 
-            Post newPost2 = new Post()
-            {
-                Likes = 125,
-                Title = "Post Three",
-                PostContent = "Lorem ipsum dolores est",
-                PostTags = new List<PostTag>()
-            };
+           // Post newPost2 = new Post()
+           // {
+           //     Likes = 125,
+           //     Title = "Post Three",
+           //     PostContent = "Lorem ipsum dolores est",
+           //     PostTags = new List<PostTag>()
+           // };
 
-            Post newPost3 = new Post()
-            {
-                Likes = 36,
-                Title = "Post Three",
-                PostContent = "Lorem ipsum dolores est",
-                PostTags = new List<PostTag>()
-            };
+           // Post newPost3 = new Post()
+           // {
+           //     Likes = 36,
+           //     Title = "Post Three",
+           //     PostContent = "Lorem ipsum dolores est",
+           //     PostTags = new List<PostTag>()
+           // };
 
-            PostTag newPostTag2 = new PostTag()
-            {
-                Blog = newBlog,
-                Tag = newTag,
-                Post = newPost2,
-                BlogId = 3,
-                PostId = 4,
-                TagId = 4
-            };
-            PostTag newPostTag3 = new PostTag()
-            {
-                Blog = newBlog,
-                Tag = newTag,
-                Post = newPost3,
-                BlogId = 3,
-                PostId = 5,
-                TagId = 4
-            };
+           // PostTag newPostTag2 = new PostTag()
+           // {
+           //     Blog = newBlog,
+           //     Tag = newTag,
+           //     Post = newPost2,
+           //     BlogId = 3,
+           //     PostId = 4,
+           //     TagId = 4
+           // };
+           // PostTag newPostTag3 = new PostTag()
+           // {
+           //     Blog = newBlog,
+           //     Tag = newTag,
+           //     Post = newPost3,
+           //     BlogId = 3,
+           //     PostId = 5,
+           //     TagId = 4
+           // };
 
 
-            newBlog.PostTags.Add(newPostTag);
-            newBlog.PostTags.Add(newPostTag2);
-            newBlog.PostTags.Add(newPostTag3);
-            newPost.PostTags.Add(newPostTag);
-            newTag.PostTags.Add(newPostTag);
+           // newBlog.PostTags.Add(newPostTag);
+           // newBlog.PostTags.Add(newPostTag2);
+           // newBlog.PostTags.Add(newPostTag3);
+           // newPost.PostTags.Add(newPostTag);
+           // newTag.PostTags.Add(newPostTag);
 
-            JsonConvert.SerializeObject(newBlog, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-            rest.Post<Blog>(newBlog, "/blog");
-            rest.Post<Post>(newPost, "/post");
-            rest.Post<Tag>(newTag, "/tag");
+           // JsonConvert.SerializeObject(newBlog, new JsonSerializerSettings()
+           // {
+           //     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+           // });
+           // rest.Post<Blog>(newBlog, "/blog");
+           // rest.Post<Post>(newPost, "/post");
+           // rest.Post<Tag>(newTag, "/tag");
 
-            //DELETE
-            rest.Delete(1, "/blog");
-            rest.Delete(1, "/post");
-            rest.Delete(1, "/tag");
+           // //DELETE
+           // rest.Delete(1, "/blog");
+           // rest.Delete(1, "/post");
+           // rest.Delete(1, "/tag");
 
-            //UPDATE
-            Blog updatedBlog = new Blog()
-            {
-                Title = "Blog threeV2",
-                ID = 3,
-                PostTags = new List<PostTag>()
-            };
-            updatedBlog.PostTags.Add(newPostTag);
-            Tag updatedTag = new Tag()
-            {
-                Id = 2,
-                Name = "Tag Two V2",
-                PostTags = new List<PostTag>()
-            };
-            updatedTag.PostTags.Add(newPostTag);
-            Post updatedPost = new Post()
-            {
-                Id = 2,
-                Likes = 1564,
-                PostContent = "Post content V2",
-                Title = "Post Title 2 V2",
-                PostTags = new List<PostTag>()
-            };
-            updatedPost.PostTags.Add(newPostTag);
-            rest.Put<Blog>(updatedBlog, "/blog");
-            rest.Put<Tag>(updatedTag, "/tag/");
-            rest.Put<Post>(updatedPost, "/post/");
+           // //UPDATE
+           // Blog updatedBlog = new Blog()
+           // {
+           //     Title = "Blog threeV2",
+           //     ID = 3,
+           //     PostTags = new List<PostTag>()
+           // };
+           // updatedBlog.PostTags.Add(newPostTag);
+           // Tag updatedTag = new Tag()
+           // {
+           //     Id = 2,
+           //     Name = "Tag Two V2",
+           //     PostTags = new List<PostTag>()
+           // };
+           // updatedTag.PostTags.Add(newPostTag);
+           // Post updatedPost = new Post()
+           // {
+           //     Id = 2,
+           //     Likes = 1564,
+           //     PostContent = "Post content V2",
+           //     Title = "Post Title 2 V2",
+           //     PostTags = new List<PostTag>()
+           // };
+           // updatedPost.PostTags.Add(newPostTag);
+           // rest.Put<Blog>(updatedBlog, "/blog");
+           // rest.Put<Tag>(updatedTag, "/tag/");
+           // rest.Put<Post>(updatedPost, "/post/");
 
-            var blogposttile =  rest.Get<IEnumerable<string>>(2, "stat/blogposttile");
-            var blogtagname = rest.Get<IEnumerable<string>>(2, "stat/blogtagname");
-            var likesum = rest.GetSingle<IEnumerable<KeyValuePair<string, int>>>("stat/likesum");
-            var tagsbypost = rest.Get<IEnumerable<string>>(3, "stat/tagsbypost");
-            var postsbytag = rest.Get<IEnumerable<string>>(3, "stat/postsbytag");
+           // var blogposttile =  rest.Get<IEnumerable<string>>(2, "stat/blogposttile");
+           // var blogtagname = rest.Get<IEnumerable<string>>(2, "stat/blogtagname");
+           // var likesum = rest.GetSingle<IEnumerable<KeyValuePair<string, int>>>("stat/likesum");
+           // var tagsbypost = rest.Get<IEnumerable<string>>(3, "stat/tagsbypost");
+           // var postsbytag = rest.Get<IEnumerable<string>>(3, "stat/postsbytag");
         }
         /*
          * static void Main(string[] args)
@@ -243,7 +243,11 @@ namespace HSTUTU_HFT_2021221
                         {
                             PostTag newPostTag = new PostTag() { Blog = newBlog, BlogId = maxId+1, Post = selectedPost, PostId = postId, Tag = selectedTag, TagId = tagId };
                             newBlog.PostTags.Add(newPostTag);
-                            rest.Post(newBlog, "blogs");
+                            selectedTag.PostTags = new List<PostTag>() { newPostTag };
+                            selectedPost.PostTags = new List<PostTag>() { newPostTag };
+                            rest.Put<Tag>(selectedTag, "/tag");
+                            rest.Put<Post>(selectedPost, "/post");
+                            rest.Post(newBlog, "/blog");
                             Console.WriteLine("Item successfully added!");
                         }                       
                         Console.ReadKey();
@@ -265,7 +269,8 @@ namespace HSTUTU_HFT_2021221
                             Title = Posttitle,
                             PostTags = new List<PostTag>(),
                             Likes = likes,
-                            PostContent = content
+                            PostContent = content,
+                            BlogId = blogId
 
                         };
                         var tagsA = rest.Get<Tag>("/tag");
@@ -274,7 +279,7 @@ namespace HSTUTU_HFT_2021221
                         var selectedTagA = tagsA.FirstOrDefault(x => x.Id == tagId);
                         var selectedBlogA = blogsA.FirstOrDefault(x => x.ID == blogId);
                         maxId = postsA.Max(x => x.Id);
-                        if (selectedBlogA is null && selectedTagA is null)
+                        if (selectedBlogA == null && selectedTagA == null)
                         {
                             Console.WriteLine("Invalid Blog or Tag ID, try again!");
                         }
@@ -282,7 +287,11 @@ namespace HSTUTU_HFT_2021221
                         {
                             PostTag newPostTag = new PostTag() { Blog = selectedBlogA, BlogId = blogId, Post = newPost, PostId = maxId+1, Tag = selectedTagA, TagId = tagId };
                             newPost.PostTags.Add(newPostTag);
-                            rest.Post(newPost, "posts");
+                            selectedTagA.PostTags = new List<PostTag>() { newPostTag };
+                            selectedBlogA.PostTags = new List<PostTag>() { newPostTag };
+                            rest.Put<Tag>(selectedTagA, "/tag");
+                            rest.Put<Blog>(selectedBlogA, "/blog");
+                            rest.Post(newPost, "/post");
                             Console.WriteLine("Item successfully added!");
                         }                       
                         Console.ReadKey();
@@ -316,7 +325,11 @@ namespace HSTUTU_HFT_2021221
                         {
                             PostTag newPostTag = new PostTag() { Blog = selectedBlogB, BlogId = blogId, Post = selectedPostB, PostId = postId, Tag = newTag, TagId = maxId+1 };
                             newTag.PostTags.Add(newPostTag);
-                            rest.Post(newTag, "tags");
+                            selectedPostB.PostTags = new List<PostTag>() { newPostTag };
+                            selectedBlogB.PostTags = new List<PostTag>() { newPostTag };
+                            rest.Put<Blog>(selectedBlogB, "/blog");
+                            rest.Put<Post>(selectedPostB, "/post");
+                            rest.Post(newTag, "/tag");
                             Console.WriteLine("Item successfully added!");
                         }
                         Console.ReadKey();
@@ -330,29 +343,41 @@ namespace HSTUTU_HFT_2021221
                 Console.ReadKey();
                 MainMenu();
             }
-        }/*
+        }
         private static void Read()
         {
             Console.Clear();
-            RestService rest = new RestService("http://localhost:2509");
-            Console.WriteLine("Which table should I display ? (artist,table,album)");
+            RestService rest = new RestService("http://localhost:57125");
+            Console.WriteLine("Which table should I display ? (blog,post,tag)");
             string table = Console.ReadLine();
-            if (table == "artist" || table == "track" || table == "album")
+            if (table == "blog" || table == "post" || table == "tag")
             {
                 switch (table)
                 {
-                    case "artist":
-                        var tempArtist = rest.Get<Artists>("artist");
+                    case "blog":
+                        var Blogs = rest.Get<Blog>("/blog");
+                        foreach (var item in Blogs)
+                        {
+                            Console.WriteLine(item.ID + " " + item.Title);
+                        }
                         Console.ReadKey();
                         MainMenu();
                         break;
-                    case "album":
-                        var temparAlbum = rest.Get<Albums>("album");
+                    case "post":
+                        var Posts = rest.Get<Post>("/post");
+                        foreach (var item in Posts)
+                        {
+                            Console.WriteLine(item.Id + " " + item.Title + " " + item.PostContent + " " + item.Likes);
+                        }
                         Console.ReadKey();
                         MainMenu();
                         break;
-                    case "track":
-                        var tempTrack = rest.Get<Tracks>("track");
+                    case "tag":
+                        var Tags = rest.Get<Tag>("/tag");
+                        foreach (var item in Tags)
+                        {
+                            Console.WriteLine(item.Id + " " + item.Name);
+                        }
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -368,93 +393,75 @@ namespace HSTUTU_HFT_2021221
         private static void Update()
         {
             Console.Clear();
-            RestService rest = new RestService("http://localhost:2509");
-            Console.WriteLine("What type of element do you want me to update ? (artist,track,album");
+            RestService rest = new RestService("http://localhost:57125");
+            Console.WriteLine("What type of element do you want me to update ? (blog,tag,post)");
             string table = Console.ReadLine();
-            if (table == "artist" || table == "track" || table == "album")
+            if (table == "blog" || table == "tag" || table == "post")
             {
                 switch (table)
                 {
-                    case "artist":
-                        Console.WriteLine("Please enter the ID of the Artist: ");
-                        int artistid1 = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Name of the artist: ");
-                        string name = Console.ReadLine();
-                        Console.WriteLine("Birthday of the artist ");
-                        DateTime birthday = DateTime.Parse(Console.ReadLine());
-                        Console.WriteLine("Where were they born ? ");
-                        string nationality = Console.ReadLine();
-                        Console.WriteLine("Do they have a Grammy award ? (true/false)");
-                        bool grammy = bool.Parse(Console.ReadLine());
-                        rest.Put(new Artists()
-                        {
-                            ArtistID = artistid1,
-                            Name = name,
-                            Birthday = birthday,
-                            Nationality = nationality,
-                            GrammyWinner = grammy,
-
-                        }, "artist");
-                        Console.WriteLine("Item successfully added!");
-                        Console.ReadKey();
-                        MainMenu();
-                        break;
-                    case "album":
-                        Console.WriteLine("Please enter the ID of the Album: ");
-                        int albumid1 = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Name of the Album: ");
+                    case "blog":
+                        Console.WriteLine("Please enter the ID of the Blog: ");
+                        int blogId = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Title of the blog: ");
                         string title = Console.ReadLine();
-                        Console.WriteLine("Please enter the ID of the Artist: ");
-                        int id = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Who published the album ?");
-                        string label = Console.ReadLine();
-                        Console.WriteLine("How long is the track ? ");
-                        TimeSpan length = TimeSpan.Parse(Console.ReadLine());
-                        Console.WriteLine("When was the album released ?");
-                        DateTime releasedate = DateTime.Parse(Console.ReadLine());
-                        Console.WriteLine("What is the album genre ? ");
-                        string genre = Console.ReadLine();
-                        rest.Post(new Albums()
+                        rest.Put(new Blog()
                         {
-                            AlbumID = albumid1,
                             Title = title,
-                            ArtistID = id,
-                            Label = label,
-                            Length = length,
-                            ReleaseDate = releasedate,
-                            Genre = genre
-                        }, "album");
-                        Console.WriteLine("Item successfully added!");
+                            ID = blogId
+
+                        }, "/blog");
+                        Console.WriteLine("Item successfully updated!");
                         Console.ReadKey();
                         MainMenu();
                         break;
-                    case "track":
-                        Console.WriteLine("Please enter the ID of the Track: ");
-                        int trackid = int.Parse(Console.ReadLine());
-                        Console.WriteLine("What is the title of the track ?");
-                        string tracktitle = Console.ReadLine();
-                        Console.WriteLine("Please enter the ID of the Album: ");
-                        int albumid = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Please enter the ID of the Artist: ");
-                        int artistid = int.Parse(Console.ReadLine());
-                        Console.WriteLine("How many times was the song played ?");
-                        int plays = int.Parse(Console.ReadLine());
-                        Console.WriteLine("How long is the Track ?");
-                        TimeSpan duration = TimeSpan.Parse(Console.ReadLine());
-                        Console.WriteLine("Is the Track suitable ?");
-                        bool excplicit = bool.Parse(Console.ReadLine());
-                        Console.WriteLine("Item successfully added!");
-                        rest.Post(new Tracks()
+                    case "post":
+                        Console.WriteLine("Please enter the ID of the Post: ");
+                        int postId = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Title of Post: ");
+                        string postTitle = Console.ReadLine();
+                        Console.WriteLine("Please enter the ID of the Post: ");
+                        int id = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter the count of likes: ");
+                        int likes = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Write down the content os the Post: ");
+                        string content = Console.ReadLine();
+                        Console.WriteLine("Write down the ID of the connected Blog: ");
+                        int blogIdforPost = int.Parse(Console.ReadLine());
+                        if (rest.Get<Blog>("/blog").FirstOrDefault(x => x.ID == blogIdforPost) != null)
                         {
-                            TrackID = trackid,
-                            Title = tracktitle,
-                            AlbumID = albumid,
-                            ArtistID = artistid,
-                            Plays = plays,
-                            Duration = duration,
-                            IsExplicit = excplicit,
+                            rest.Put(new Post()
+                            {
+                                Title = postTitle,
+                                Likes = likes,
+                                PostContent = content,
+                                Id = postId,
+                                BlogId = blogIdforPost
 
-                        }, "track");
+                            }, "/post");
+                            Console.WriteLine("Item successfully added!");
+                            Console.ReadKey();
+                            MainMenu();
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid connected blog Id");
+                            Console.ReadKey();
+                            MainMenu();
+                            break;
+                        }
+                    case "tag":
+                        Console.WriteLine("Please enter the ID of the tag: ");
+                        int tagid = int.Parse(Console.ReadLine());
+                        Console.WriteLine("What is the name of the Tag ?");
+                        string TagName = Console.ReadLine();                        
+                        Console.WriteLine("Item successfully added!");
+                        rest.Post(new Tag()
+                        {
+                            Name = TagName, Id = tagid
+
+                        }, "/tag");
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -468,8 +475,5 @@ namespace HSTUTU_HFT_2021221
             }
 
         }
-    }
-         * 
-         */
-    }
+    }           
 }
