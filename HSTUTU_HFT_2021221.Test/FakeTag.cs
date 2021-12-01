@@ -10,7 +10,7 @@ namespace HSTUTU_HFT_2021221.Test
 {
     public class FakeTag : ITagRepository
     {
-        public void ChangeTagName(int id, string name)
+        public void Update(Tag tag)
         {
             throw new NotImplementedException();
         }

@@ -10,7 +10,7 @@ namespace HSTUTU_HFT_2021221.Test
 {
     public class FakeBlog : IBlogRepository
     {
-        public void ChangeBlogTitle(int id, string title)
+        public void Update(Blog blog)
         {
             throw new NotImplementedException();
         }

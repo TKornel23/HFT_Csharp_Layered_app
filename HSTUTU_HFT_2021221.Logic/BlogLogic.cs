@@ -21,7 +21,12 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void Update(Blog blog)
         {
-            repo.Update(blog);
+            if (repo.GetAll().FirstOrDefault(x => x.ID == blog.ID) != null)
+            { repo.Update(blog); }
+            else
+            {
+                throw new Exception("Bad ID");
+            }
         }
 
         public void CreateBlog(Blog newBlog)
@@ -38,7 +43,12 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void DeleteBlog(int id)
         {
-            repo.Delete(id);
+            if (repo.GetAll().FirstOrDefault(x => x.ID == id) != null)
+            { repo.Delete(id); }
+            else
+            {
+                throw new Exception("Bad ID");
+            }
         }
 
         public IList<Blog> GetAllBlogs()

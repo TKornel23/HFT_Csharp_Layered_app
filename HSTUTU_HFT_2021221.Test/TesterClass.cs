@@ -48,7 +48,6 @@ namespace HSTUTU_HFT_2021221.Test
             blog.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
             tag.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
             post.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
-            post.Blog = blog;
 
             mockedBlog.Setup(x => x.GetOne(It.IsAny<int>())).Returns(blog);
             mockedPost.Setup(x => x.GetOne(It.IsAny<int>())).Returns(post);
@@ -58,25 +57,25 @@ namespace HSTUTU_HFT_2021221.Test
             mockedTag.Setup(x => x.GetAll()).Returns(this.FakeTagObjects);
             mockedPost.Setup(x => x.GetAll()).Returns(this.FakePostObjects);
 
-            blogLogic = new BlogLogic(mockedBlog.Object, mockedPost.Object, mockedTag.Object);
-            postLogic = new PostLogic(mockedPost.Object, mockedTag.Object);
+            blogLogic = new BlogLogic(mockedBlog.Object, mockedPost.Object);
+            postLogic = new PostLogic(mockedPost.Object);
             tagLogic = new TagLogic(mockedTag.Object);
         }
 
         [Test]
-        public void GetBlogPostTitleByIdTest()
+        public void GetBlogPostTitleByIdTestReturnFalse()
         {
             var posts = this.blogLogic.GetBlogPostTitleById(5);
             
             Assert.That(posts.Any(x => x.Contains("HFT Rules")), Is.EqualTo(false));
         }
 
-        [TestCase(1)]
+        [TestCase(2)]
         public void GetTagsByPostId(int id)
         {
             var tags = this.postLogic.GetTagsByPostId(id);
             
-            Assert.That(tags.Any(x => x.Contains("Tag Five")), Is.EqualTo(false));
+            Assert.That(tags.Any(x => x.Contains("No comments")), Is.EqualTo(false));
         }
 
         [Test]
@@ -84,7 +83,7 @@ namespace HSTUTU_HFT_2021221.Test
         {
             var post = this.tagLogic.GetPostByTagId(1);
 
-            Assert.That(post.Any(x => x.Contains("Tag One")), Is.EqualTo(false));
+            Assert.That(post.Any(x => x.Contains("HFT Rules")), Is.EqualTo(true));
         }
 
         [Test]
@@ -126,12 +125,13 @@ namespace HSTUTU_HFT_2021221.Test
 
             Assert.That(() => postLogic.CreatePost(newPost), Throws.TypeOf<InvalidOperationException>());
         }
-
-        [TestCase(1, null)]
-        [TestCase(1, "")]
-        public void UpdatePostErrors(int id, string title)
+        [Test]
+        public void UpdatePostErrors()
         {
-            Assert.That(() => this.postLogic.ChangePostTitle(id, title), Throws.TypeOf<Exception>());
+
+            Assert.That(() => this.postLogic.ChangePostTitle(new Post() { 
+                Title = "Updated", Id = 99, PostContent = "New Content", Likes = 96
+            }), Throws.TypeOf<Exception>());
         }
         [Test]
         public void GetOneBlog()

@@ -10,7 +10,7 @@ namespace HSTUTU_HFT_2021221.Test
 {
     public class FakePost : IPostRepository
     {
-        public void ChangePostTitle(int id, string name)
+        public void Update(Post post)
         {
             throw new NotImplementedException();
         }

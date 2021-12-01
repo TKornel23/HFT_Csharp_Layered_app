@@ -17,7 +17,12 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void UpdateTag(Tag tag)
         {
-            repo.Update(tag);
+            if (repo.GetAll().FirstOrDefault(x => x.Id == tag.Id) != null)
+            { repo.Update(tag); }
+            else
+            {
+                throw new Exception("Bad ID");
+            }
         }
 
         public void CreateTag(Tag newTag)
@@ -35,7 +40,12 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public void DeleteTag(int id)
         {
-            repo.Delete(id);
+            if (repo.GetAll().FirstOrDefault(x => x.Id == id) != null)
+            { repo.Delete(id); }
+            else
+            {
+                throw new Exception("Bad ID");
+            }
         }
 
         public IList<Tag> GetAllTags()
@@ -45,7 +55,12 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public Tag GetTagById(int id)
         {
-            return repo.GetOne(id);
+            if (repo.GetAll().FirstOrDefault(x => x.Id == id) != null)
+            { return repo.GetOne(id); }
+            else
+            {
+                throw new Exception("Bad ID");
+            }
         }
 
         public IEnumerable<string> GetPostByTagId(int id)
