@@ -42,7 +42,7 @@ namespace HSTUTU_HFT_2021221
             Console.WriteLine("7) Write tags by Blog Id...");
             Console.WriteLine("8) Write out Likes count groupped by blog...");
             Console.WriteLine("9) Write out how many tags a blog has...");
-            Console.WriteLine("10) Write out all the tag's post by id...");
+            Console.WriteLine("10) Write out all the posts by tag id...");
             Console.WriteLine("11) Exit...");
             Console.Write("\r\nSelect an option: ");
 
@@ -185,7 +185,7 @@ namespace HSTUTU_HFT_2021221
             foreach (var tag in item)
             {
                 Console.WriteLine("Post name: " + tag.Key);
-                Console.WriteLine("Count of it's tags: " + tag.Value);
+                Console.WriteLine(" - Count of it's tags: " + tag.Value);
             }
             Console.ReadKey();
             MainMenu();
@@ -195,7 +195,7 @@ namespace HSTUTU_HFT_2021221
         {
             Console.Clear();
             RestService rest = new RestService("http://localhost:57125");
-            Console.WriteLine("Write down a blog ID: ");
+            Console.WriteLine("Write down a tag ID: ");
             string id = Console.ReadLine();
             var item = rest.GetSingle<IEnumerable<string>>("/stat/postsbytag/" + id);
             Console.WriteLine("The " + id + " blog tags: ");

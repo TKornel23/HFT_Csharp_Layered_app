@@ -93,8 +93,8 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public IEnumerable<string> GetAllBlogTagNameById(int id)
         {
-            var q1 = posttrepo.GetAll().Where(x => x.Id == id).Select(x =>x.Id);
-            var q2 = tagrepo.GetAll().Where(x => q1.Contains(x.Id));
+            var q1 = posttrepo.GetAll().Where(x => x.BlogId == id).Select(x =>x.Id);
+            var q2 = tagrepo.GetAll().Join(q1, x => x.PostId, y => y, (x, y) => x).ToList();
 
             var q3 = q2.Select(x => x.Name);
             
