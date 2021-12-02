@@ -15,10 +15,18 @@ namespace HSTUTU_HFT_2021221
             Console.Clear();
             RestService rest = new RestService("http://localhost:57125");
 
-            bool showMenu = true;
-            while (showMenu)
+            try
             {
-                showMenu = MainMenu();
+
+                bool showMenu = true;
+                while (showMenu)
+                {
+                    showMenu = MainMenu();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
         private static bool MainMenu()
@@ -30,12 +38,12 @@ namespace HSTUTU_HFT_2021221
             Console.WriteLine("3) C-CREATE (blog,post,tag)...");
             Console.WriteLine("4) U-UPDATE (FROM existing database data)...");
             Console.WriteLine("5) D-DELETE (FROM existing database data)...");
-            Console.WriteLine("6) Write Posts by Blog Id...");
+            Console.WriteLine("6) Write out every Blog with it's Tags");
             Console.WriteLine("7) Write tags by Blog Id...");
-            Console.WriteLine("8) Write out Likes count groupped by blog");
-            Console.WriteLine("9) Write out all the post's tag by id");
-            Console.WriteLine("10) Write out all the tag's post by id");
-            Console.WriteLine("11) Exit");
+            Console.WriteLine("8) Write out Likes count groupped by blog...");
+            Console.WriteLine("9) Write out how many tags a blog has...");
+            Console.WriteLine("10) Write out all the tag's post by id...");
+            Console.WriteLine("11) Exit...");
             Console.Write("\r\nSelect an option: ");
 
             switch (Console.ReadLine())
@@ -128,11 +136,12 @@ namespace HSTUTU_HFT_2021221
             var item = rest.GetSingle<IEnumerable<KeyValuePair<string, IEnumerable<string>>>>("/stat/blogposttile/");
             foreach (var post in item)
             {
-                Console.WriteLine(post.Key);
+                Console.WriteLine("Blog Title: "+post.Key);
                 foreach (var asd in post.Value)
                 {
-                    Console.WriteLine(asd);
+                    Console.WriteLine("It's Tag: " + asd);
                 }
+                Console.WriteLine("");
             }
             Console.ReadKey();
             MainMenu();
@@ -145,6 +154,7 @@ namespace HSTUTU_HFT_2021221
             Console.WriteLine("Write down a blog ID: ");
             string id = Console.ReadLine();
             var item = rest.GetSingle<IEnumerable<string>>("/stat/blogtagname/" + id);
+            Console.WriteLine("Tag name of id: " + id + " blog: ");
             foreach (var tag in item)
             {
                 Console.WriteLine(tag);
@@ -160,8 +170,8 @@ namespace HSTUTU_HFT_2021221
             var item = rest.GetSingle<IEnumerable<KeyValuePair<string, int>>>("/stat/likesum/");
             foreach (var tag in item)
             {
-                Console.WriteLine(tag.Key);
-                Console.WriteLine(tag.Value);
+                Console.WriteLine("Blog Title: " + tag.Key);
+                Console.WriteLine(" - Likes: " + tag.Value);
             }
             Console.ReadKey();
             MainMenu();
@@ -174,7 +184,8 @@ namespace HSTUTU_HFT_2021221
             var item = rest.GetSingle<IEnumerable<KeyValuePair<string, int>>>("/stat/tagsbypost/");
             foreach (var tag in item)
             {
-                Console.WriteLine(tag.Key + " " + tag.Value);
+                Console.WriteLine("Post name: " + tag.Key);
+                Console.WriteLine("Count of it's tags: " + tag.Value);
             }
             Console.ReadKey();
             MainMenu();
@@ -187,9 +198,10 @@ namespace HSTUTU_HFT_2021221
             Console.WriteLine("Write down a blog ID: ");
             string id = Console.ReadLine();
             var item = rest.GetSingle<IEnumerable<string>>("/stat/postsbytag/" + id);
+            Console.WriteLine("The " + id + " blog tags: ");
             foreach (var tag in item)
             {
-                Console.WriteLine(tag);
+                Console.WriteLine("-" + tag);
             }
             Console.ReadKey();
             MainMenu();
@@ -200,7 +212,7 @@ namespace HSTUTU_HFT_2021221
         {
             Console.Clear();
             RestService rest = new RestService("http://localhost:57125");
-            Console.WriteLine("Which table you want me to delete from ? (blogs,posts,tags)");
+            Console.WriteLine("Which table you want me to delete from ? (blog,post,tag)");
             string table = Console.ReadLine();
             Console.WriteLine("Which value with which ID do you want to delete ?");
             int id = int.Parse(Console.ReadLine());
