@@ -127,10 +127,10 @@ namespace HSTUTU_HFT_2021221.Test
                 Title = "Updated", Id = 99, PostContent = "New Content", Likes = 96
             }), Throws.TypeOf<Exception>());
         }
-        [Test]
-        public void GetOneBlog()
+        [TestCase(5)]
+        public void GetOneBlog(int id)
         {
-            Assert.That(() => this.blogLogic.GetBlogById(5).Title, Is.EqualTo("Blog Title Five"));
+            Assert.That(() => this.blogLogic.GetBlogById(id).Title, Is.EqualTo("Blog Title Five"));
         }
 
 
