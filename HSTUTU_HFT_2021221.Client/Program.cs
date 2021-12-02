@@ -15,19 +15,12 @@ namespace HSTUTU_HFT_2021221
             Console.Clear();
             RestService rest = new RestService("http://localhost:57125");
 
-            try
+            bool showMenu = true;
+            while (showMenu)
             {
+                showMenu = MainMenu();
+            }
 
-                bool showMenu = true;
-                while (showMenu)
-                {
-                    showMenu = MainMenu();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
         private static bool MainMenu()
         {
@@ -99,7 +92,7 @@ namespace HSTUTU_HFT_2021221
                         Console.WriteLine("Write doen an ID: ");
                         int id = int.Parse(Console.ReadLine());
                         var Blog = rest.Get<Blog>(id,"/blog");
-                        Console.WriteLine(Blog.ID + " " + Blog.Title);
+                        Console.WriteLine("ID: "+Blog.ID + " title: " + Blog.Title);
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -107,7 +100,7 @@ namespace HSTUTU_HFT_2021221
                         Console.WriteLine("Write doen an ID: ");
                         int idA = int.Parse(Console.ReadLine());
                         var Post = rest.Get<Post>(idA,"/post");
-                        Console.WriteLine(Post.Id + " " + Post.Title + " " + Post.PostContent + " " + Post.Likes);              
+                        Console.WriteLine("ID: "+Post.Id + " Title: " + Post.Title + " Content: " + Post.PostContent + " Likes: " + Post.Likes);              
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -115,7 +108,7 @@ namespace HSTUTU_HFT_2021221
                         Console.WriteLine("Write doen an ID: ");
                         int idB = int.Parse(Console.ReadLine());
                         var Tag = rest.Get<Tag>(idB,"/tag");
-                        Console.WriteLine(Tag.Id + " " + Tag.Name);
+                        Console.WriteLine("ID: " + Tag.Id + " Name: " + Tag.Name);
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -310,7 +303,7 @@ namespace HSTUTU_HFT_2021221
                         var Blogs = rest.Get<Blog>("/blog");
                         foreach (var item in Blogs)
                         {
-                            Console.WriteLine(item.ID + " " + item.Title);
+                            Console.WriteLine("ID: " + item.ID + " Title: " + item.Title);
                         }
                         Console.ReadKey();
                         MainMenu();
@@ -319,7 +312,7 @@ namespace HSTUTU_HFT_2021221
                         var Posts = rest.Get<Post>("/post");
                         foreach (var item in Posts)
                         {
-                            Console.WriteLine(item.Id + " " + item.Title + " " + item.PostContent + " " + item.Likes + " " + item.BlogId);
+                            Console.WriteLine("ID: " + item.Id + " Title: " + item.Title + " Content: " + item.PostContent + " Likes: " + item.Likes + " BlogID: " + item.BlogId);
                         }
                         Console.ReadKey();
                         MainMenu();
@@ -328,7 +321,7 @@ namespace HSTUTU_HFT_2021221
                         var Tags = rest.Get<Tag>("/tag");
                         foreach (var item in Tags)
                         {
-                            Console.WriteLine(item.Id + " " + item.Name + " " + item.PostId);
+                            Console.WriteLine("ID: " + item.Id + " Name: " + item.Name + " PostID: " + item.PostId);
                         }
                         Console.ReadKey();
                         MainMenu();
