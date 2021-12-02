@@ -17,10 +17,10 @@ namespace HSTUTU_HFT_2021221.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-
+        [ForeignKey(nameof(Post))]
+        public int PostId { get; set; }
         [NotMapped]
         [JsonIgnore]
-
-        public virtual ICollection<PostTag> PostTags { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

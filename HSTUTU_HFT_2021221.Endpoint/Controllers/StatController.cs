@@ -23,10 +23,11 @@ namespace HSTUTU_HFT_2021221.Endpoint.Controllers
             this.postLogic = postLogic;
         }
 
-       [HttpGet("blogposttile/{id}")]
-        public IEnumerable<string> GetBlogPostTitleById(int id)
+       [HttpGet("blogposttile")]
+        public IEnumerable<KeyValuePair<string, IEnumerable<string>>> GetBlogPostTitleById()
         {
-            return blogLogic.GetBlogPostTitleById(id);
+            var q1 = blogLogic.GetBlogPostTitleById();
+            return q1;
         }
 
         [HttpGet("blogtagname/{id}")]
@@ -41,10 +42,10 @@ namespace HSTUTU_HFT_2021221.Endpoint.Controllers
             return blogLogic.GetSumOfPostLikesByBlog();
         }
 
-        [HttpGet("tagsbypost/{id}")]
-        public IEnumerable<string> GetTagsByPostId(int id)
+        [HttpGet("tagsbypost/")]
+        public IEnumerable<KeyValuePair<string, int>> GetTagsCountGroupByPost()
         {
-            return postLogic.GetTagsByPostId(id);
+            return postLogic.GetTagsCountGroupByPost();
         }
 
         [HttpGet("postsbytag/{id}")]

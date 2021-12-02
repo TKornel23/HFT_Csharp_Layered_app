@@ -19,6 +19,6 @@ namespace HSTUTU_HFT_2021221.Models
         public string Title { get; set; }
         [NotMapped]
         [JsonIgnore]
-        public virtual ICollection<PostTag> PostTags { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

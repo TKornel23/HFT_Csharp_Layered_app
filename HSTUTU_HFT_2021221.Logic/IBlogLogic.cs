@@ -14,7 +14,7 @@ namespace HSTUTU_HFT_2021221.Logic
         IList<Blog> GetAllBlogs();
         void DeleteBlog(int id);
         void CreateBlog(Blog newBlog);
-        IEnumerable<string> GetBlogPostTitleById(int id);
+        IEnumerable<KeyValuePair<string, IEnumerable<string>>> GetBlogPostTitleById();
         IEnumerable<string> GetAllBlogTagNameById(int id);
         IEnumerable<KeyValuePair<string, int>> GetSumOfPostLikesByBlog();
     }

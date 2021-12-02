@@ -9,10 +9,12 @@ namespace HSTUTU_HFT_2021221.Logic
     public class TagLogic : ITagLogic
     {
         ITagRepository repo;
+        IPostRepository postrepo;
 
-        public TagLogic(ITagRepository repo)
+        public TagLogic(ITagRepository repo, IPostRepository postRepository)
         {
             this.repo = repo;
+            this.postrepo = postRepository;
         }
 
         public void UpdateTag(Tag tag)
@@ -65,7 +67,9 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public IEnumerable<string> GetPostByTagId(int id)
         {
-            return repo.GetOne(id).PostTags.Select(x => x.Post.Title).ToList();
+            var q1 = repo.GetOne(id);
+            var q2 = postrepo.GetAll().Where(x => x.Id == q1.PostId);
+            return q2.Select(x => x.Title);
         }
     }
 }

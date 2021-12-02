@@ -11,10 +11,15 @@ namespace HSTUTU_HFT_2021221.Logic
     public class PostLogic : IPostLogic
     {
         IPostRepository repo;
+        IBlogRepository blogrepo;
+        ITagRepository tagrepo;
 
-        public PostLogic(IPostRepository repoPar)
+
+        public PostLogic(IPostRepository repoPar, IBlogRepository blogrepo, ITagRepository tagrepo)
         {
             this.repo = repoPar;
+            this.blogrepo = blogrepo;
+            this.tagrepo = tagrepo;
         }
 
         public void CreatePost(Post newPost)
@@ -65,9 +70,24 @@ namespace HSTUTU_HFT_2021221.Logic
             }
         }
 
-        public IEnumerable<string> GetTagsByPostId(int id)
+        public IEnumerable<KeyValuePair<string, int>> GetTagsCountGroupByPost()
         {
-            return repo.GetAll().Select(x => x).Where(x => x.Id == id).SelectMany(x => x.PostTags.Select(x => x.Tag.Name)).ToList();
+
+            var q1 = from x in repo.GetAll()
+                     join y in tagrepo.GetAll() on x.Id equals y.PostId
+                     let joinedItem = new
+                     {
+                         x.Title,
+                         y.Id
+                     }
+                     group joinedItem by joinedItem.Title into g
+                     select new KeyValuePair<string, int>
+                     (
+                         g.Key, g.Select(x => x.Id).Count()
+                     );
+
+
+            return q1;
         }
     }
 }

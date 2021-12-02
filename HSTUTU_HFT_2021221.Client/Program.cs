@@ -25,52 +25,99 @@ namespace HSTUTU_HFT_2021221
         {
             Console.Clear();
             Console.WriteLine("Choose an option:");
-            Console.WriteLine("1) C-CREATE (blog,post,tag)...");
-            Console.WriteLine("2) R-READ ALL (FROM blog,post,tag)...");
-            Console.WriteLine("3) U-UPDATE (FROM existing database data)...");
-            Console.WriteLine("4) D-DELETE (FROM existing database data)...");
-            Console.WriteLine("5) Write Posts by Blog Id...");
-            Console.WriteLine("6) Write tags by Blog Id...");
-            Console.WriteLine("7) Write out Likes count groupped by blog");
-            Console.WriteLine("8) Write out all the post's tag by id");
-            Console.WriteLine("9) Write out all the tag's post by id");
-            Console.WriteLine("10) Exit");
+            Console.WriteLine("1) R-READ ALL (FROM blog,post,tag)...");
+            Console.WriteLine("2) R-READ ONE (FROM blog,post,tag)...");
+            Console.WriteLine("3) C-CREATE (blog,post,tag)...");
+            Console.WriteLine("4) U-UPDATE (FROM existing database data)...");
+            Console.WriteLine("5) D-DELETE (FROM existing database data)...");
+            Console.WriteLine("6) Write Posts by Blog Id...");
+            Console.WriteLine("7) Write tags by Blog Id...");
+            Console.WriteLine("8) Write out Likes count groupped by blog");
+            Console.WriteLine("9) Write out all the post's tag by id");
+            Console.WriteLine("10) Write out all the tag's post by id");
+            Console.WriteLine("11) Exit");
             Console.Write("\r\nSelect an option: ");
 
             switch (Console.ReadLine())
             {
                 case "1":
-                    Create();
-                    return true;
-                case "2":
                     Read();
                     return true;
+                case "2":
+                    ReadOne();
+                    return true;
                 case "3":
-                    Update();
+                    Create();
                     return true;
                 case "4":
-                    Delete();
+                    Update();
                     return true;
                 case "5":
-                    blogposttile();
+                    Delete();
                     return true;
                 case "6":
-                    blogtagname();
+                    blogposttile();
                     return true;
                 case "7":
-                    likesum();
+                    blogtagname();
                     return true;
                 case "8":
-                    tagsbypost();
+                    likesum();
                     return true;
                 case "9":
-                    postsbytag();
+                    tagsbypost();
                     return true;
                 case "10":
+                    postsbytag();
+                    return true;
+                case "11":
                     return false;
                 default:
                     MainMenu();
                     return true;
+            }
+        }
+        private static void ReadOne()
+        {
+            Console.Clear();
+            RestService rest = new RestService("http://localhost:57125");
+            Console.WriteLine("Which table should I display ? (blog,post,tag)");
+            string table = Console.ReadLine();
+            if (table == "blog" || table == "post" || table == "tag")
+            {
+                switch (table)
+                {
+                    case "blog":
+                        Console.WriteLine("Write doen an ID: ");
+                        int id = int.Parse(Console.ReadLine());
+                        var Blog = rest.Get<Blog>(id,"/blog");
+                        Console.WriteLine(Blog.ID + " " + Blog.Title);
+                        Console.ReadKey();
+                        MainMenu();
+                        break;
+                    case "post":
+                        Console.WriteLine("Write doen an ID: ");
+                        int idA = int.Parse(Console.ReadLine());
+                        var Post = rest.Get<Post>(idA,"/post");
+                        Console.WriteLine(Post.Id + " " + Post.Title + " " + Post.PostContent + " " + Post.Likes);              
+                        Console.ReadKey();
+                        MainMenu();
+                        break;
+                    case "tag":
+                        Console.WriteLine("Write doen an ID: ");
+                        int idB = int.Parse(Console.ReadLine());
+                        var Tag = rest.Get<Tag>(idB,"/tag");
+                        Console.WriteLine(Tag.Id + " " + Tag.Name);
+                        Console.ReadKey();
+                        MainMenu();
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Incorrect table name!");
+                Console.ReadKey();
+                MainMenu();
             }
         }
 
@@ -78,12 +125,14 @@ namespace HSTUTU_HFT_2021221
         {
             Console.Clear();
             RestService rest = new RestService("http://localhost:57125");
-            Console.WriteLine("Write down a blog ID: ");
-            string id = Console.ReadLine();
-            var item = rest.GetSingle<IEnumerable<string>>("/stat/blogposttile/"+id);
+            var item = rest.GetSingle<IEnumerable<KeyValuePair<string, IEnumerable<string>>>>("/stat/blogposttile/");
             foreach (var post in item)
             {
-                Console.WriteLine(post);
+                Console.WriteLine(post.Key);
+                foreach (var asd in post.Value)
+                {
+                    Console.WriteLine(asd);
+                }
             }
             Console.ReadKey();
             MainMenu();
@@ -122,12 +171,10 @@ namespace HSTUTU_HFT_2021221
         {
             Console.Clear();
             RestService rest = new RestService("http://localhost:57125");
-            Console.WriteLine("Write down a blog ID: ");
-            string id = Console.ReadLine();
-            var item = rest.GetSingle<IEnumerable<string>>("/stat/tagsbypost/"+id);
+            var item = rest.GetSingle<IEnumerable<KeyValuePair<string, int>>>("/stat/tagsbypost/");
             foreach (var tag in item)
             {
-                Console.WriteLine(tag);
+                Console.WriteLine(tag.Key + " " + tag.Value);
             }
             Console.ReadKey();
             MainMenu();
@@ -182,31 +229,11 @@ namespace HSTUTU_HFT_2021221
                         int tagId = int.Parse(Console.ReadLine());
                         Blog newBlog = new Blog()
                         {
-                            Title = title,
-                            PostTags = new List<PostTag>()
-
+                            Title = title
                         };
-                        var tags = rest.Get<Tag>("/tag");
-                        var posts = rest.Get<Post>("/post");
                         var blogs = rest.Get<Blog>("/blog");
-                        var selectedTag = tags.FirstOrDefault(x => x.Id == tagId);
-                        var selectedPost = posts.FirstOrDefault(x => x.Id == postId);
-                        var maxId = blogs.Max(x => x.ID);
-                        if(selectedPost is null && selectedTag is null)
-                        {
-                            Console.WriteLine("Invalid Post or Tag ID, try again!");
-                        }
-                        else
-                        {
-                            PostTag newPostTag = new PostTag() { Blog = newBlog, BlogId = maxId+1, Post = selectedPost, PostId = postId, Tag = selectedTag, TagId = tagId };
-                            newBlog.PostTags.Add(newPostTag);
-                            selectedTag.PostTags = new List<PostTag>() { newPostTag };
-                            selectedPost.PostTags = new List<PostTag>() { newPostTag };
-                            rest.Put<Tag>(selectedTag, "/tag");
-                            rest.Put<Post>(selectedPost, "/post");
-                            rest.Post(newBlog, "/blog");
-                            Console.WriteLine("Item successfully added!");
-                        }                       
+                        rest.Post(newBlog, "/blog");
+                        Console.WriteLine("Item successfully added!");                       
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -217,40 +244,18 @@ namespace HSTUTU_HFT_2021221
                         string content = Console.ReadLine();
                         Console.WriteLine("Please enter the ID of the Connected Blog: ");
                         int blogId = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Please enter the ID of the connected Tag: ");
-                        tagId = int.Parse(Console.ReadLine());
                         Console.WriteLine("Please enter the likes count: ");
                         int likes = int.Parse(Console.ReadLine());
                         Post newPost = new Post()
                         {
                             Title = Posttitle,
-                            PostTags = new List<PostTag>(),
                             Likes = likes,
                             PostContent = content,
                             BlogId = blogId
 
                         };
-                        var tagsA = rest.Get<Tag>("/tag");
-                        var postsA = rest.Get<Post>("/post");
-                        var blogsA= rest.Get<Blog>("/blog");
-                        var selectedTagA = tagsA.FirstOrDefault(x => x.Id == tagId);
-                        var selectedBlogA = blogsA.FirstOrDefault(x => x.ID == blogId);
-                        maxId = postsA.Max(x => x.Id);
-                        if (selectedBlogA == null && selectedTagA == null)
-                        {
-                            Console.WriteLine("Invalid Blog or Tag ID, try again!");
-                        }
-                        else
-                        {
-                            PostTag newPostTag = new PostTag() { Blog = selectedBlogA, BlogId = blogId, Post = newPost, PostId = maxId+1, Tag = selectedTagA, TagId = tagId };
-                            newPost.PostTags.Add(newPostTag);
-                            selectedTagA.PostTags = new List<PostTag>() { newPostTag };
-                            selectedBlogA.PostTags = new List<PostTag>() { newPostTag };
-                            rest.Put<Tag>(selectedTagA, "/tag");
-                            rest.Put<Blog>(selectedBlogA, "/blog");
-                            rest.Post(newPost, "/post");
-                            Console.WriteLine("Item successfully added!");
-                        }                       
+                        rest.Post(newPost, "/post");
+                        Console.WriteLine("Item successfully added!");                      
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -259,36 +264,14 @@ namespace HSTUTU_HFT_2021221
                         string name = Console.ReadLine();
                         Console.WriteLine("Please enter the ID of the Post: ");
                         postId = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Please enter the ID of the Blog: ");
-                        blogId = int.Parse(Console.ReadLine());
                         Console.WriteLine("Item successfully added!");
                         Tag newTag = new Tag()
                         {
-                            Name = name,
-                            PostTags = new List<PostTag>()
+                            Name = name, PostId = postId
 
                         };
-                        var tagsB = rest.Get<Tag>("/tag");
-                        var postsB = rest.Get<Post>("/post");
-                        var blogsB = rest.Get<Blog>("/blog");
-                        var selectedPostB = postsB.FirstOrDefault(x => x.Id == postId);
-                        var selectedBlogB = blogsB.FirstOrDefault(x => x.ID == blogId);
-                        maxId = tagsB.Max(x => x.Id);
-                        if (selectedBlogB is null && selectedPostB is null)
-                        {
-                            Console.WriteLine("Invalid Blog or Tag ID, try again!");
-                        }
-                        else
-                        {
-                            PostTag newPostTag = new PostTag() { Blog = selectedBlogB, BlogId = blogId, Post = selectedPostB, PostId = postId, Tag = newTag, TagId = maxId+1 };
-                            newTag.PostTags.Add(newPostTag);
-                            selectedPostB.PostTags = new List<PostTag>() { newPostTag };
-                            selectedBlogB.PostTags = new List<PostTag>() { newPostTag };
-                            rest.Put<Blog>(selectedBlogB, "/blog");
-                            rest.Put<Post>(selectedPostB, "/post");
-                            rest.Post(newTag, "/tag");
-                            Console.WriteLine("Item successfully added!");
-                        }
+                        rest.Post(newTag, "/tag");
+                        Console.WriteLine("Item successfully added!");
                         Console.ReadKey();
                         MainMenu();
                         break;
@@ -324,7 +307,7 @@ namespace HSTUTU_HFT_2021221
                         var Posts = rest.Get<Post>("/post");
                         foreach (var item in Posts)
                         {
-                            Console.WriteLine(item.Id + " " + item.Title + " " + item.PostContent + " " + item.Likes);
+                            Console.WriteLine(item.Id + " " + item.Title + " " + item.PostContent + " " + item.Likes + " " + item.BlogId);
                         }
                         Console.ReadKey();
                         MainMenu();
@@ -333,7 +316,7 @@ namespace HSTUTU_HFT_2021221
                         var Tags = rest.Get<Tag>("/tag");
                         foreach (var item in Tags)
                         {
-                            Console.WriteLine(item.Id + " " + item.Name);
+                            Console.WriteLine(item.Id + " " + item.Name + " " + item.PostId);
                         }
                         Console.ReadKey();
                         MainMenu();
@@ -383,38 +366,30 @@ namespace HSTUTU_HFT_2021221
                         string content = Console.ReadLine();
                         Console.WriteLine("Write down the ID of the connected Blog: ");
                         int blogIdforPost = int.Parse(Console.ReadLine());
-                        if (rest.Get<Blog>("/blog").FirstOrDefault(x => x.ID == blogIdforPost) != null)
+                        rest.Put(new Post()
                         {
-                            rest.Put(new Post()
-                            {
-                                Title = postTitle,
-                                Likes = likes,
-                                PostContent = content,
-                                Id = postId,
-                                BlogId = blogIdforPost
+                            Title = postTitle,
+                            Likes = likes,
+                            PostContent = content,
+                            Id = postId,
+                            BlogId = blogIdforPost
 
-                            }, "/post");
-                            Console.WriteLine("Item successfully added!");
-                            Console.ReadKey();
-                            MainMenu();
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid connected blog Id");
-                            Console.ReadKey();
-                            MainMenu();
-                            break;
-                        }
+                        }, "/post");
+                        Console.WriteLine("Item successfully added!");
+                        Console.ReadKey();
+                        MainMenu();
+                        break;
                     case "tag":
                         Console.WriteLine("Please enter the ID of the tag: ");
                         int tagid = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Please enter the ID of is's post: ");
+                        int postid = int.Parse(Console.ReadLine());
                         Console.WriteLine("What is the name of the Tag ?");
-                        string TagName = Console.ReadLine();                        
+                        string TagName = Console.ReadLine();        
                         Console.WriteLine("Item successfully added!");
                         rest.Post(new Tag()
                         {
-                            Name = TagName, Id = tagid
+                            Name = TagName, Id = tagid, PostId = postid
 
                         }, "/tag");
                         Console.ReadKey();

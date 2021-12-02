@@ -27,7 +27,6 @@ namespace HSTUTU_HFT_2021221.Test
             {
                 ID = 5,
                 Title = "Blog Title Five",
-                PostTags = new List<PostTag>()
             };
             Post post = new Post()
             {
@@ -35,19 +34,15 @@ namespace HSTUTU_HFT_2021221.Test
                 Id = 1,
                 PostContent = "HFT Post Content",
                 Title = "HFT Rules",
-                Likes = 115,
-                PostTags = new List<PostTag>()
+                Likes = 115,                
             };
 
             Tag tag = new Tag()
             {
                 Id = 1,
                 Name = "Tag One",
-                PostTags = new List<PostTag>()
+                PostId = 1
             };
-            blog.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
-            tag.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
-            post.PostTags.Add(new PostTag() { BlogId = 5, PostId = 1, TagId = 1, Blog = blog, Tag = tag, Post = post });
 
             mockedBlog.Setup(x => x.GetOne(It.IsAny<int>())).Returns(blog);
             mockedPost.Setup(x => x.GetOne(It.IsAny<int>())).Returns(post);
@@ -57,33 +52,32 @@ namespace HSTUTU_HFT_2021221.Test
             mockedTag.Setup(x => x.GetAll()).Returns(this.FakeTagObjects);
             mockedPost.Setup(x => x.GetAll()).Returns(this.FakePostObjects);
 
-            blogLogic = new BlogLogic(mockedBlog.Object, mockedPost.Object);
-            postLogic = new PostLogic(mockedPost.Object);
-            tagLogic = new TagLogic(mockedTag.Object);
+            blogLogic = new BlogLogic(mockedBlog.Object, mockedPost.Object, mockedTag.Object);
+            postLogic = new PostLogic(mockedPost.Object, mockedBlog.Object, mockedTag.Object);
+            tagLogic = new TagLogic(mockedTag.Object, mockedPost.Object);
         }
 
         [Test]
-        public void GetBlogPostTitleByIdTestReturnFalse()
+        public void GetBlogPostTitleByIdTestReturnTrue()
         {
-            var posts = this.blogLogic.GetBlogPostTitleById(5);
+            var posts = this.blogLogic.GetBlogPostTitleById();
             
-            Assert.That(posts.Any(x => x.Contains("HFT Rules")), Is.EqualTo(false));
+            Assert.That(posts.Any(x => x.Value.Contains("Post One")), Is.EqualTo(true));
         }
 
         [TestCase(2)]
         public void GetTagsByPostId(int id)
         {
-            var tags = this.postLogic.GetTagsByPostId(id);
+            var tags = this.postLogic.GetTagsCountGroupByPost();
             
-            Assert.That(tags.Any(x => x.Contains("No comments")), Is.EqualTo(false));
+            Assert.That(tags.Select(x => x.Value).Contains(2), Is.EqualTo(true));
         }
 
         [Test]
         public void GetPostByTagId()
         {
-            var post = this.tagLogic.GetPostByTagId(1);
-
-            Assert.That(post.Any(x => x.Contains("HFT Rules")), Is.EqualTo(true));
+            var post = this.tagLogic.GetPostByTagId(1);           
+            Assert.That(post.Select(x => x).Contains("Post One"), Is.EqualTo(true));
         }
 
         [Test]
@@ -147,42 +141,20 @@ namespace HSTUTU_HFT_2021221.Test
             Blog b3 = new Blog() { ID = 3, Title = "Title Three" };
             Blog b4 = new Blog() { ID = 4, Title = "Title Four" };
 
-            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One", Likes = 12, BlogId = 1 };
-            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two", Likes = 87, BlogId = 3 };
-            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three", Likes = 123, BlogId = 2 };
-            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four", Likes = 91, BlogId = 3 };
-            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five", Likes = 36, BlogId = 4 };
-            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six", Likes = 74, BlogId = 4 };
+            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One", BlogId = 1, Likes = 56 };
+            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two", BlogId = 2, Likes = 156 };
+            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three", BlogId = 3, Likes = 98 };
+            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four", BlogId = 2, Likes = 59 };
+            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five", BlogId = 4, Likes = 12 };
+            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six", BlogId = 1, Likes = 96 };
 
-            Tag t1 = new Tag() { Id = 1, Name = "Tag One" };
-            Tag t2 = new Tag() { Id = 2, Name = "Tag Two" };
-            Tag t3 = new Tag() { Id = 3, Name = "Tag Three" };
-            Tag t4 = new Tag() { Id = 4, Name = "Tag Four" };
-            Tag t5 = new Tag() { Id = 5, Name = "Tag Five" };
-
-            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
-            PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3, Blog = b2, Post = p3, Tag = t2 };
-            PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2, Blog = b3, Tag = t5, Post = p2 };
-            PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6, Blog = b4, Tag = t1, Post = p6 };
-            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4, Blog = b3, Post = p4, Tag = t4 };
-            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5, Blog = b4, Tag = t5, Post = p5};
-            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
+            Tag t1 = new Tag() { Id = 1, Name = "Tag One", PostId = 1 };
+            Tag t2 = new Tag() { Id = 2, Name = "Tag Two", PostId = 2 };
+            Tag t3 = new Tag() { Id = 3, Name = "Tag Three", PostId = 4 };
+            Tag t4 = new Tag() { Id = 4, Name = "Tag Four", PostId = 1 };
+            Tag t5 = new Tag() { Id = 5, Name = "Tag Five", PostId = 5 };
 
             List<Post> posts = new List<Post>();
-            p1.PostTags = new List<PostTag>();
-            p2.PostTags = new List<PostTag>();
-            p3.PostTags = new List<PostTag>();
-            p4.PostTags = new List<PostTag>();
-            p5.PostTags = new List<PostTag>();
-            p6.PostTags = new List<PostTag>();
-            p1.PostTags.Add(pt1);
-            p1.PostTags.Add(pt7);
-            p2.PostTags.Add(pt3);
-            p3.PostTags.Add(pt2);
-            p4.PostTags.Add(pt5);
-            p5.PostTags.Add(pt6);
-            p6.PostTags.Add(pt4);
-
             posts.Add(p1);
             posts.Add(p2);
             posts.Add(p3);
@@ -200,41 +172,19 @@ namespace HSTUTU_HFT_2021221.Test
             Blog b3 = new Blog() { ID = 3, Title = "Title Three" };
             Blog b4 = new Blog() { ID = 4, Title = "Title Four" };
 
-            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One" };
-            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two" };
-            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three" };
-            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four" };
-            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five" };
-            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six" };
+            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One", BlogId = 1, Likes = 56 };
+            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two", BlogId = 2, Likes = 156 };
+            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three", BlogId = 3, Likes = 98 };
+            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four", BlogId = 2, Likes = 59 };
+            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five", BlogId = 4, Likes = 12 };
+            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six", BlogId = 1, Likes = 96 };
 
-            Tag t1 = new Tag() { Id = 1, Name = "Tag One" };
-            Tag t2 = new Tag() { Id = 2, Name = "Tag Two" };
-            Tag t3 = new Tag() { Id = 3, Name = "Tag Three" };
-            Tag t4 = new Tag() { Id = 4, Name = "Tag Four" };
-            Tag t5 = new Tag() { Id = 5, Name = "Tag Five" };
-
-            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
-            PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3, Blog = b2, Post = p3, Tag = t2 };
-            PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2, Blog = b3, Tag = t5, Post = p2 };
-            PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6, Blog = b4, Tag = t1, Post = p6 };
-            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4, Blog = b3, Post = p4, Tag = t4 };
-            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5, Blog = b4, Tag = t5, Post = p5 };
-            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
-
+            Tag t1 = new Tag() { Id = 1, Name = "Tag One", PostId = 1 };
+            Tag t2 = new Tag() { Id = 2, Name = "Tag Two", PostId = 2 };
+            Tag t3 = new Tag() { Id = 3, Name = "Tag Three", PostId = 4 };
+            Tag t4 = new Tag() { Id = 4, Name = "Tag Four", PostId = 1 };
+            Tag t5 = new Tag() { Id = 5, Name = "Tag Five", PostId = 5 };
             List<Tag> tags = new List<Tag>();
-
-            t1.PostTags = new List<PostTag>();
-            t2.PostTags = new List<PostTag>();
-            t3.PostTags = new List<PostTag>();
-            t4.PostTags = new List<PostTag>();
-            t5.PostTags = new List<PostTag>();
-            t1.PostTags.Add(pt7);
-            t1.PostTags.Add(pt1);
-            t1.PostTags.Add(pt1);
-            t2.PostTags.Add(pt2);
-            t4.PostTags.Add(pt5);
-            t5.PostTags.Add(pt6);
-            t5.PostTags.Add(pt3);
 
 
             tags.Add(t1);
@@ -253,39 +203,20 @@ namespace HSTUTU_HFT_2021221.Test
             Blog b3 = new Blog() { ID = 3, Title = "Title Three" };
             Blog b4 = new Blog() { ID = 4, Title = "Title Four" };
 
-            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One" };
-            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two" };
-            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three" };
-            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four" };
-            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five" };
-            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six" };
+            Post p1 = new Post() { Id = 1, PostContent = "Lorem", Title = "Post One", BlogId = 1, Likes = 56 };
+            Post p2 = new Post() { Id = 2, PostContent = "Ipsum", Title = "Post Two", BlogId = 2, Likes = 156 };
+            Post p3 = new Post() { Id = 3, PostContent = "Dolores", Title = "Post Three", BlogId = 3, Likes = 98 };
+            Post p4 = new Post() { Id = 4, PostContent = "Est", Title = "Post Four", BlogId = 2, Likes = 59 };
+            Post p5 = new Post() { Id = 5, PostContent = "Baeiu", Title = "Post Five", BlogId = 4, Likes = 12 };
+            Post p6 = new Post() { Id = 6, PostContent = "Gorag", Title = "Post Six", BlogId = 1, Likes = 96 };
 
-            Tag t1 = new Tag() { Id = 1, Name = "Tag One" };
-            Tag t2 = new Tag() { Id = 2, Name = "Tag Two" };
-            Tag t3 = new Tag() { Id = 3, Name = "Tag Three" };
-            Tag t4 = new Tag() { Id = 4, Name = "Tag Four" };
-            Tag t5 = new Tag() { Id = 5, Name = "Tag Five" };
-
-            PostTag pt1 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
-            PostTag pt2 = new PostTag() { BlogId = 2, TagId = 2, PostId = 3, Blog = b2, Post = p3, Tag = t2 };
-            PostTag pt3 = new PostTag() { BlogId = 3, TagId = 5, PostId = 2, Blog = b3, Tag = t5, Post = p2 };
-            PostTag pt4 = new PostTag() { BlogId = 4, TagId = 1, PostId = 6, Blog = b4, Tag = t1, Post = p6 };
-            PostTag pt5 = new PostTag() { BlogId = 3, TagId = 4, PostId = 4, Blog = b3, Post = p4, Tag = t4 };
-            PostTag pt6 = new PostTag() { BlogId = 4, TagId = 5, PostId = 5, Blog = b4, Tag = t5, Post = p5 };
-            PostTag pt7 = new PostTag() { BlogId = 1, TagId = 1, PostId = 1, Blog = b1, Post = p1, Tag = t1 };
+            Tag t1 = new Tag() { Id = 1, Name = "Tag One", PostId = 1 };
+            Tag t2 = new Tag() { Id = 2, Name = "Tag Two", PostId = 2 };
+            Tag t3 = new Tag() { Id = 3, Name = "Tag Three", PostId = 4 };
+            Tag t4 = new Tag() { Id = 4, Name = "Tag Four", PostId = 1 };
+            Tag t5 = new Tag() { Id = 5, Name = "Tag Five", PostId = 5 };
 
             List<Blog> blogs = new List<Blog>();
-            b1.PostTags = new List<PostTag>();
-            b2.PostTags = new List<PostTag>();
-            b3.PostTags = new List<PostTag>();
-            b4.PostTags = new List<PostTag>();
-
-            b1.PostTags.Add(pt1);
-            b1.PostTags.Add(pt2);
-            b2.PostTags.Add(pt5);
-            b3.PostTags.Add(pt4);
-            b3.PostTags.Add(pt6);
-            b4.PostTags.Add(pt3);
 
             blogs.Add(b1);
             blogs.Add(b2);

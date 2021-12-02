@@ -12,11 +12,13 @@ namespace HSTUTU_HFT_2021221.Logic
     {
         IBlogRepository repo;
         IPostRepository posttrepo;
+        ITagRepository tagrepo;
 
-        public BlogLogic(IBlogRepository repoPar, IPostRepository posttrepo)
+        public BlogLogic(IBlogRepository repoPar, IPostRepository posttrepo, ITagRepository tagrepo)
         {
             this.repo = repoPar;
             this.posttrepo = posttrepo;
+            this.tagrepo = tagrepo;
         }
 
         public void Update(Blog blog)
@@ -58,7 +60,7 @@ namespace HSTUTU_HFT_2021221.Logic
 
         public Blog GetBlogById(int id)
         {
-            var blog = repo.GetOne(1);
+            var blog = repo.GetOne(id);
             if (blog != null)
             {
                 return repo.GetOne(id);
@@ -69,20 +71,39 @@ namespace HSTUTU_HFT_2021221.Logic
             }
         }
 
-        public IEnumerable<string> GetBlogPostTitleById(int id)
+        public IEnumerable<KeyValuePair<string, IEnumerable<string>>> GetBlogPostTitleById()
         {
-            return repo.GetAll().Select(x => x).Where(x => x.ID == id).SelectMany(x => x.PostTags.Select(x => x.Post.Title)).ToList();
+            var q3 = from x in posttrepo.GetAll().AsEnumerable()
+                     join y in repo.GetAll().AsEnumerable() on x.BlogId equals y.ID
+                     let joinedItem = new
+                     {
+                         Key = y.Title,
+                         Value = x.Title
+                     }
+
+                     group joinedItem by joinedItem.Key into g
+                     select new KeyValuePair<string, IEnumerable<string>>
+                     (
+                        g.Key, g.Select(x => x.Value)
+                     );
+
+
+            return q3;
         }
 
         public IEnumerable<string> GetAllBlogTagNameById(int id)
         {
-            return repo.GetAll().Select(x => x).Where(x => x.ID == id).SelectMany(x => x.PostTags.Select(x => x.Tag.Name));
+            var q1 = posttrepo.GetAll().Where(x => x.Id == id).Select(x =>x.Id);
+            var q2 = tagrepo.GetAll().Where(x => q1.Contains(x.Id));
+
+            var q3 = q2.Select(x => x.Name);
+            
+
+            return q3;
         }
 
         public IEnumerable<KeyValuePair<string, int>> GetSumOfPostLikesByBlog()
         {
-            var q1 = posttrepo.GetAll();
-            var q2 = repo.GetAll();
 
             var q3 = from x in posttrepo.GetAll()
                      join y in repo.GetAll() on x.BlogId equals y.ID
