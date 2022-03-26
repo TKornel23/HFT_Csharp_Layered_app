@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HSTUTU_HFT_2021221.WpfClient.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,8 @@ namespace HSTUTU_HFT_2021221.WpfClient
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-
+            TagWindow tw = new TagWindow();
+            tw.ShowDialog();
         }
     }
 }
