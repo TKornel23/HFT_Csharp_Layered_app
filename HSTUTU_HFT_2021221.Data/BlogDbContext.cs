@@ -30,22 +30,19 @@ namespace HSTUTU_HFT_2021221.Data
                 .HasMany(x => x.Posts)
                 .WithOne(x => x.Blog)
                 .HasForeignKey(x => x.BlogId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Post>()
                 .HasMany(x => x.Tags)
                 .WithOne(x => x.Post)
                 .HasForeignKey(x => x.PostId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Tag>()
                 .HasOne(x => x.Post)
                 .WithMany(x => x.Tags)
                 .HasForeignKey(x => x.PostId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
-            Blog b1 = new Blog() { ID = 1, Title = "stockage.blog"};
-            Blog b2 = new Blog() { ID = 2, Title = "blognetwork.info"};
-            Blog b3 = new Blog() { ID = 3, Title = "seoonline.blog" };
-            Blog b4 = new Blog() { ID = 4, Title = "gamesshop.org", };
+
 
 
             Post p1 = new Post() { Id = 1,Title = "17 Reasons the Amish Were Right About Asds", PostContent = "lorem ipsun",BlogId = 1, Likes = 89 };
@@ -61,6 +58,10 @@ namespace HSTUTU_HFT_2021221.Data
             Post p11 = new Post() { Id = 11,  PostContent = "lorem ipsum dolores est", Title = "15 Freaky Reasons Payments Could Get You Fired", BlogId = 1, Likes = 255 };
             Post p12 = new Post() { Id = 12, PostContent = "lorem ipsum dolores est", Title = "12 Secrets About Seos the Government Is Hiding", BlogId = 4, Likes = 997 };
 
+            Blog b1 = new Blog() { ID = 1, Title = "stockage.blog" };
+            Blog b2 = new Blog() { ID = 2, Title = "blognetwork.info" };
+            Blog b3 = new Blog() { ID = 3, Title = "seoonline.blog" };
+            Blog b4 = new Blog() { ID = 4, Title = "gamesshop.org" };
 
             Tag t1 = new Tag() {  Id = 1,Name = "stocks",  PostId = 1 };
             Tag t2 = new Tag() {  Id = 2,Name = "fun",  PostId = 3 };           

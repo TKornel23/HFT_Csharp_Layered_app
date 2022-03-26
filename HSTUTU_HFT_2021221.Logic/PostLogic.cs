@@ -89,5 +89,10 @@ namespace HSTUTU_HFT_2021221.Logic
 
             return q1;
         }
+
+        public IEnumerable<Post> GetPostsByBlogId(int id)
+        {
+            return repo.GetPostsByBlogId(id);
+        }
     }
 }

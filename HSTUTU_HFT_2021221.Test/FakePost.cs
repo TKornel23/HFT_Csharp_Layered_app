@@ -70,5 +70,10 @@ namespace HSTUTU_HFT_2021221.Test
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Post> GetPostsByBlogId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

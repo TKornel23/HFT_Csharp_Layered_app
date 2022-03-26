@@ -1,6 +1,7 @@
 ﻿using HSTUTU_HFT_2021221.Data;
 using HSTUTU_HFT_2021221.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HSTUTU_HFT_2021221.Repository
@@ -37,6 +38,11 @@ namespace HSTUTU_HFT_2021221.Repository
         public override Post GetOne(int id)
         {
             return _ctx.Posts.FirstOrDefault<Post>(x => x.Id == id);
+        }
+
+        public IEnumerable<Post> GetPostsByBlogId(int id)
+        {
+            return _ctx.Posts.Where(x => x.BlogId == id);
         }
     }
 }

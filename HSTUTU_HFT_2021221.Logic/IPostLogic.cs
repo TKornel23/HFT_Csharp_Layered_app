@@ -15,5 +15,6 @@ namespace HSTUTU_HFT_2021221.Logic
         void CreatePost(Post newPost);
         void ChangePostTitle(Post post);
         public IEnumerable<KeyValuePair<string, int>> GetTagsCountGroupByPost();
+        public IEnumerable<Post> GetPostsByBlogId(int id);
     }
 }

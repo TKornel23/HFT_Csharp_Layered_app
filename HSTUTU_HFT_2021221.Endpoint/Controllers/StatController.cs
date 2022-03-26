@@ -1,6 +1,9 @@
-﻿using HSTUTU_HFT_2021221.Logic;
+﻿using HSTUTU_HFT_2021221.Endpoint.Services;
+using HSTUTU_HFT_2021221.Logic;
+using HSTUTU_HFT_2021221.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +18,14 @@ namespace HSTUTU_HFT_2021221.Endpoint.Controllers
         IBlogLogic blogLogic;
         ITagLogic tagLogic;
         IPostLogic postLogic;
+        IHubContext<SignalRHub> hub;
 
-        public StatController(IBlogLogic blogLogic, ITagLogic tagLogic, IPostLogic postLogic)
+        public StatController(IBlogLogic blogLogic, ITagLogic tagLogic, IPostLogic postLogic, IHubContext<SignalRHub> hub)
         {
             this.blogLogic = blogLogic;
             this.tagLogic = tagLogic;
             this.postLogic = postLogic;
+            this.hub = hub;
         }
 
        [HttpGet("blogposttile")]
