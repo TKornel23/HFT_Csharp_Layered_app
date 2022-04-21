@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace HSTUTU_HFT_2021221.Models
 {
     [Table("TagTable")]
-    public class Tag
+    public class Tag 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

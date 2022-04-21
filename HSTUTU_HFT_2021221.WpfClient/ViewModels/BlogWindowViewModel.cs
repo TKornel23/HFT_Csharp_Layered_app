@@ -24,18 +24,98 @@ namespace HSTUTU_HFT_2021221.WpfClient
         }
 
         public RestCollection<Blog> Blogs { get; set; }
+        public RestCollection<Post> Posts { get; set; }
+        public RestCollection<Tag> Tags { get; set; }
+
+        private Post selectedPost;
+
+        public Post SelectedPost
+        {
+            get { return selectedPost; }
+            set
+            {
+                if (value != null)
+                {
+                    selectedPost = new Post()
+                    {
+                        BlogId = value.BlogId,
+                        Id = value.Id,
+                        Likes = value.Likes,
+                        PostContent = value.PostContent,
+                        Title = value.Title
+                    };
+
+                    List<Tag> temp = Tags.Where(x => x.PostId == selectedPost.Id).ToList();
+                    DesiredTags = new ObservableCollection<Tag>(temp);
+
+                    OnPropertyChanged();
+                    (DeletePostCommand as RelayCommand).NotifyCanExecuteChanged();
+                    (UpdatePostCommand as RelayCommand).NotifyCanExecuteChanged();
+                }
+
+            }
+        }
+
+        private Tag selectedTag;
+
+        public Tag SelectedTag
+        {
+            get { return selectedTag; }
+            set
+            {
+                if (value != null)
+                {
+                    selectedTag = new Tag()
+                    {
+                        Id = value.Id,
+                        PostId = selectedPost.Id,
+                        Name = value.Name
+                    };
+
+                    OnPropertyChanged();
+                    (DeleteTagCommand as RelayCommand).NotifyCanExecuteChanged();
+                    (UpdateTagCommand as RelayCommand).NotifyCanExecuteChanged();
+                }
+
+            }
+        }
+        public ICommand CreateTagCommand { get; set; }
+
+        public ICommand DeleteTagCommand { get; set; }
+
+        public ICommand UpdateTagCommand { get; set; }
+
+        private ObservableCollection<Tag> desiredTags;
+        public ObservableCollection<Tag> DesiredTags
+        {
+            get { return desiredTags; }
+            set
+            {
+                desiredTags = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CreatePostCommand { get; set; }
+
+        public ICommand DeletePostCommand { get; set; }
+
+        public ICommand UpdatePostCommand { get; set; }
+
+
+        private ObservableCollection<Post> desiredPosts;
+        public ObservableCollection<Post> DesiredPosts
+        {
+            get { return desiredPosts; }
+            set
+            {
+                desiredPosts = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         private Blog selectedBlog;
-
-        public static bool IsInDesignMode
-        {
-            get
-            {
-                var prop = DesignerProperties.IsInDesignModeProperty;
-                return (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
-            }
-        }
 
         public Blog SelectedBlog
         {
@@ -50,12 +130,24 @@ namespace HSTUTU_HFT_2021221.WpfClient
                         ID = value.ID
                     };
 
+                    List<Post> temp = Posts.Where(x => x.BlogId == selectedBlog.ID).ToList();
+                    DesiredPosts = new ObservableCollection<Post>(temp);
+
                     OnPropertyChanged();
                     (DeleteBlogCommand as RelayCommand).NotifyCanExecuteChanged();
                     (UpdateBlogCommand as RelayCommand).NotifyCanExecuteChanged();
                 }
             }
         }
+        public static bool IsInDesignMode
+        {
+            get
+            {
+                var prop = DesignerProperties.IsInDesignModeProperty;
+                return (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
+            }
+        }
+
 
         public ICommand CreateBlogCommand { get; set; }
 
@@ -68,6 +160,9 @@ namespace HSTUTU_HFT_2021221.WpfClient
             if (!IsInDesignMode)
             {
                 Blogs = new RestCollection<Blog>("http://localhost:57125/", "blog", "hub");
+                Posts = new RestCollection<Post>("http://localhost:57125/", "post", "hub");
+                Tags = new RestCollection<Tag>("http://localhost:57125/", "tag", "hub");
+
                 CreateBlogCommand = new RelayCommand(() =>
                 {
                     Blogs.Add(new Blog()
@@ -97,7 +192,76 @@ namespace HSTUTU_HFT_2021221.WpfClient
                 {
                     return selectedBlog != null;
                 });
+
+                CreatePostCommand = new RelayCommand(() =>
+                {
+                    Posts.Add(new Post()
+                    {
+                        Title = selectedPost.Title,
+                        BlogId = selectedPost.BlogId,
+                        Likes = selectedPost.Likes,
+                        PostContent = selectedPost.PostContent
+                    });
+                });
+
+                UpdatePostCommand = new RelayCommand(() =>
+                {
+                    try
+                    {
+                        Posts.Update(selectedPost);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ErrorMessage = ex.Message;
+                    }
+
+                });
+
+                DeletePostCommand = new RelayCommand(() =>
+                {
+                    Posts.Delete(selectedPost.Id);
+                },
+                () =>
+                {
+                    return selectedPost != null;
+                });
+
+
+                CreateTagCommand = new RelayCommand(() =>
+                {
+                    Tags.Add(new Tag()
+                    {
+                       Name = selectedTag.Name, PostId = selectedTag.PostId
+                    });
+                });
+
+                UpdateTagCommand = new RelayCommand(() =>
+                {
+                    try
+                    {
+                        Tags.Update(selectedTag);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ErrorMessage = ex.Message;
+                    }
+
+                });
+
+                DeleteTagCommand = new RelayCommand(() =>
+                {
+                    Tags.Delete(selectedTag.Id);
+                },
+                () =>
+                {
+                    return selectedTag != null;
+                });
+
                 selectedBlog = new Blog();
+                selectedPost = new Post();
+                selectedTag = new Tag();
+                desiredTags = new ObservableCollection<Tag>();
+                desiredPosts = new ObservableCollection<Post>();
             }
 
         }
