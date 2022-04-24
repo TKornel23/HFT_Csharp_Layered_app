@@ -19,6 +19,7 @@ namespace HSTUTU_HFT_2021221.Repository
             currentBlog.Title = post.Title;
             currentBlog.Likes = post.Likes;
             currentBlog.PostContent = post.PostContent;
+            currentBlog.BlogId = post.BlogId;
             _ctx.SaveChanges();
         }
 
