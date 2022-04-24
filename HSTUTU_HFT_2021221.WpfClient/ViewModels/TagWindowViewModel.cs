@@ -3,7 +3,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -11,9 +10,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace HSTUTU_HFT_2021221.WpfClient
+namespace HSTUTU_HFT_2021221.WpfClient.ViewModels
 {
-    public class BlogWindowViewModel : ObservableRecipient
+    public class TagWindowViewModel : ObservableRecipient
     {
         private string errorMessage;
 
@@ -23,10 +22,10 @@ namespace HSTUTU_HFT_2021221.WpfClient
             set { SetProperty(ref errorMessage, value); }
         }
 
-        public RestCollection<Blog> Blogs { get; set; }
+        public RestCollection<Tag> Tags { get; set; }
 
 
-        private Blog selectedBlog;
+        private Tag selectedTag;
 
         public static bool IsInDesignMode
         {
@@ -37,17 +36,19 @@ namespace HSTUTU_HFT_2021221.WpfClient
             }
         }
 
-        public Blog SelectedBlog
+        public Tag SelectedTag
         {
-            get { return selectedBlog; }
+            get { return selectedTag; }
             set
             {
                 if (value != null)
                 {
-                    selectedBlog = new Blog()
+                    selectedTag = new Tag()
                     {
-                        Title = value.Title,
-                        ID = value.ID
+                        Id = value.Id,
+                        Name = value.Name,
+                        Post = value.Post,
+                        PostId = value.PostId
                     };
 
                     OnPropertyChanged();
@@ -63,16 +64,18 @@ namespace HSTUTU_HFT_2021221.WpfClient
 
         public ICommand UpdateBlogCommand { get; set; }
 
-        public BlogWindowViewModel()
+        public TagWindowViewModel()
         {
             if (!IsInDesignMode)
             {
-                Blogs = new RestCollection<Blog>("http://localhost:57125/", "blog", "hub");
+                Tags = new RestCollection<Tag>("http://localhost:57125/", "tag", "hub");
                 CreateBlogCommand = new RelayCommand(() =>
                 {
-                    Blogs.Add(new Blog()
+                    Tags.Add(new Tag()
                     {
-                        Title = selectedBlog.Title
+                        Name = selectedTag.Name,
+                        Post = selectedTag.Post,
+                        PostId = selectedTag.PostId
                     });
                 });
 
@@ -80,7 +83,7 @@ namespace HSTUTU_HFT_2021221.WpfClient
                 {
                     try
                     {
-                        Blogs.Update(selectedBlog);
+                        Tags.Update(selectedTag);
                     }
                     catch (ArgumentException ex)
                     {
@@ -91,13 +94,13 @@ namespace HSTUTU_HFT_2021221.WpfClient
 
                 DeleteBlogCommand = new RelayCommand(() =>
                 {
-                    Blogs.Delete(selectedBlog.ID);
+                    Tags.Delete(selectedTag.Id);
                 },
                 () =>
                 {
-                    return selectedBlog != null;
+                    return selectedTag != null;
                 });
-                selectedBlog = new Blog();
+                selectedTag = new Tag();
             }
 
         }

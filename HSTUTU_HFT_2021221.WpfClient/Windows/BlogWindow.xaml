@@ -5,16 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HSTUTU_HFT_2021221.WpfClient"
         mc:Ignorable="d"
-        Title="BlogWindow" Height="500" Width="1300">
+        Title="BlogWindow" Height="450" Width="800">
     <Window.DataContext>
         <local:BlogWindowViewModel />
     </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
@@ -26,53 +22,11 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Column="1">
-            <Label Content="Name" Background="LightBlue" Padding="10" Margin="5,0,5,5"/>
-            <TextBox Text="{Binding SelectedBlog.Title}" Padding="10" Margin="5,0,5,30"/>
+            <Label Content="Name" Background="LightBlue" Padding="10" />
+            <TextBox Text="{Binding SelectedBlog.Title}" Padding="10" Margin="0,0,0,30" x:Name="name_field"/>
             <Button Content="Create Blog" Command="{Binding CreateBlogCommand}" Margin="10" Padding="10" />
             <Button Content="Delete Blog" Command="{Binding DeleteBlogCommand}" Margin="10" Padding="10" />
             <Button Content="Update Blog" Command="{Binding UpdateBlogCommand}" Margin="10" Padding="10" />
-            <Label Content="{Binding ErrorMessage}" FontSize="18" Foreground="Red" HorizontalContentAlignment="Center" />
-        </StackPanel>
-        <ListBox ItemsSource="{Binding DesiredPosts}" SelectedItem="{Binding SelectedPost}" Grid.Column="2">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="{Binding Title}" Padding="10" Margin="0,0,0,30" HorizontalAlignment="Stretch"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Column="3" HorizontalAlignment="Stretch">
-            <Label Content="Title" Background="LightBlue" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <TextBox Text="{Binding SelectedPost.Title}" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <Label Content="Blog" Background="LightBlue" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <TextBox Text="{Binding SelectedPost.BlogId}" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <Label Content="Post Content" Background="LightBlue" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <TextBox Text="{Binding SelectedPost.PostContent}" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <Label Content="Like" Background="LightBlue" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <TextBox Text="{Binding SelectedPost.Likes}" Padding="10" Margin="5,0,5,5" HorizontalAlignment="Stretch"/>
-            <Button Content="Create Post" Command="{Binding CreatePostCommand}" Margin="5" Padding="10" />
-            <Button Content="Delete Post" Command="{Binding DeletePostCommand}" Margin="5" Padding="10" />
-            <Button Content="Update Post" Command="{Binding UpdatePostCommand}" Margin="5" Padding="10" />
-            <Label Content="{Binding ErrorMessage}" FontSize="18" Foreground="Red" HorizontalContentAlignment="Center" />
-        </StackPanel>
-        <ListBox ItemsSource="{Binding DesiredTags}" SelectedItem="{Binding SelectedTag}" Grid.Column="4">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="{Binding Name}" Padding="10" Margin="0,0,0,30" HorizontalAlignment="Stretch"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Column="5">
-            <Label Content="Name" Background="LightBlue" Padding="10" Margin="5,0,5,5"/>
-            <TextBox Text="{Binding SelectedTag.Name}" Padding="10" Margin="5,0,5,30"/>
-            <Label Content="Post" Background="LightBlue" Padding="10" Margin="5,0,5,5"/>
-            <TextBox Text="{Binding SelectedTag.PostId}" Padding="10" Margin="5,0,5,30"/>
-            <Button Content="Create Tag" Command="{Binding CreateTagCommand}" Margin="10" Padding="10" />
-            <Button Content="Delete Tag" Command="{Binding DeleteTagCommand}" Margin="10" Padding="10" />
-            <Button Content="Update Tag" Command="{Binding UpdateTagCommand}" Margin="10" Padding="10" />
             <Label Content="{Binding ErrorMessage}" FontSize="18" Foreground="Red" HorizontalContentAlignment="Center" />
         </StackPanel>
     </Grid>

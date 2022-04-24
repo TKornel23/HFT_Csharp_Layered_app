@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace HSTUTU_HFT_2021221.WpfClient
 {
-    public class BlogWindowViewModel : ObservableRecipient
+    public class PostWindowViewModel : ObservableRecipient
     {
         private string errorMessage;
 
@@ -23,10 +23,10 @@ namespace HSTUTU_HFT_2021221.WpfClient
             set { SetProperty(ref errorMessage, value); }
         }
 
-        public RestCollection<Blog> Blogs { get; set; }
+        public RestCollection<Post> Posts { get; set; }
 
 
-        private Blog selectedBlog;
+        private Post selectedPost;
 
         public static bool IsInDesignMode
         {
@@ -37,17 +37,20 @@ namespace HSTUTU_HFT_2021221.WpfClient
             }
         }
 
-        public Blog SelectedBlog
+        public Post SelectedPost
         {
-            get { return selectedBlog; }
+            get { return selectedPost; }
             set
             {
                 if (value != null)
                 {
-                    selectedBlog = new Blog()
+                    selectedPost = new Post()
                     {
                         Title = value.Title,
-                        ID = value.ID
+                        BlogId = value.BlogId,
+                        Id = value.Id,
+                        Likes = value.Likes,
+                        PostContent = value.PostContent
                     };
 
                     OnPropertyChanged();
@@ -63,16 +66,19 @@ namespace HSTUTU_HFT_2021221.WpfClient
 
         public ICommand UpdateBlogCommand { get; set; }
 
-        public BlogWindowViewModel()
+        public PostWindowViewModel()
         {
             if (!IsInDesignMode)
             {
-                Blogs = new RestCollection<Blog>("http://localhost:57125/", "blog", "hub");
+                Posts = new RestCollection<Post>("http://localhost:57125/", "post", "hub");
                 CreateBlogCommand = new RelayCommand(() =>
                 {
-                    Blogs.Add(new Blog()
+                    Posts.Add(new Post()
                     {
-                        Title = selectedBlog.Title
+                        Title = selectedPost.Title,
+                        BlogId = selectedPost.BlogId,
+                        Likes = selectedPost.Likes,
+                        PostContent = selectedPost.PostContent,
                     });
                 });
 
@@ -80,7 +86,7 @@ namespace HSTUTU_HFT_2021221.WpfClient
                 {
                     try
                     {
-                        Blogs.Update(selectedBlog);
+                        Posts.Update(selectedPost);
                     }
                     catch (ArgumentException ex)
                     {
@@ -91,13 +97,13 @@ namespace HSTUTU_HFT_2021221.WpfClient
 
                 DeleteBlogCommand = new RelayCommand(() =>
                 {
-                    Blogs.Delete(selectedBlog.ID);
+                    Posts.Delete(selectedPost.Id);
                 },
                 () =>
                 {
-                    return selectedBlog != null;
+                    return selectedPost != null;
                 });
-                selectedBlog = new Blog();
+                selectedPost = new Post();
             }
 
         }
