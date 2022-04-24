@@ -1,5 +1,6 @@
 ﻿let blogs = [];
 let posts = [];
+let tags = [];
 
 let connection = null;
 
@@ -19,6 +20,10 @@ function setup() {
     connection.on("PostCreated", (user, message) => { getData(); });
     connection.on("PostDeleted", (user, message) => { getData(); });
     connection.on("PostUpdated", (user, message) => { getData(); });
+
+    connection.on("TagCreated", (user, message) => { getData(); });
+    connection.on("TagDeleted", (user, message) => { getData(); });
+    connection.on("TagUpdated", (user, message) => { getData(); });
 
     connection.onclose
         (async () => {
@@ -45,8 +50,28 @@ async function getData() {
             display();
         });
 
+
+    await fetch("http://localhost:57125/post")
+        .then(x => x.json())
+        .then(y => {
+            posts = y;
+            display();
+        });
+
+    await fetch("http://localhost:57125/tag")
+        .then(x => x.json())
+        .then(y => {
+            tags = y;
+            display();
+        });
+
     while (document.getElementById('blog-options').hasChildNodes()) {
         document.getElementById('blog-options').removeChild(document.getElementById('blog-options').firstChild);
+    }
+
+
+    while (document.getElementById('post-options').hasChildNodes()) {
+        document.getElementById('post-options').removeChild(document.getElementById('post-options').firstChild);
     }
 
     for (var i = 0; i < blogs.length; i++) {
@@ -58,12 +83,14 @@ async function getData() {
         select.appendChild(option);
     }
 
-    await fetch("http://localhost:57125/post")
-        .then(x => x.json())
-        .then(y => {
-            posts = y;
-            display();
-        });
+    for (var i = 0; i < posts.length; i++) {
+        var option = document.createElement("option");
+        option.text = posts[i].id;
+        option.value = posts[i].id;
+
+        var select = document.getElementById('post-options');
+        select.appendChild(option);
+    }
 }
 
 function display() {
@@ -76,6 +103,57 @@ function display() {
     posts.forEach(p => {
         document.getElementById("results-post").innerHTML += "<tr><td>" + p.id + "</td><td>" + p.title + "</td><td>" + p.blogId + "</td><td>" + p.postContent + "</td><td>" + p.likes + `</td><td> <button class="btn btn-danger" onclick="remove(${p.id}, 'post')">Delete</button></td><td> <button class="btn btn-success" onclick="setUpdatePost(${p.id}, '${p.title}',${p.blogId}, '${p.postContent}', ${p.likes})">Update</button></td></tr>`;
     })
+
+    document.getElementById("results-tag").innerHTML = "";
+    tags.forEach(t => {
+        document.getElementById("results-tag").innerHTML += "<tr><td>" + t.id + "</td><td>" + t.name + "</td><td>" + t.postId + `</td><td> <button class="btn btn-danger" onclick="remove(${t.id}, 'tag')">Delete</button></td><td> <button class="btn btn-success" onclick="setUpdateTag(${t.id}, '${t.name}', ${t.postId})">Update</button></td></tr>`;
+    })
+}
+
+function setUpdateTag(id, name, postId) {
+    document.getElementById('edit-name-tag').value = name;
+    document.getElementById('edit-id-tag').value = id;
+    document.getElementById('edit-postId-tag').value = postId;
+}
+
+function UpdateTag() {
+    var name = document.getElementById('edit-name-tag').value;
+    var id = document.getElementById('edit-id-tag').value;
+    var postId = document.getElementById('edit-postId-tag').value;
+
+    fetch("http://localhost:57125/tag/", {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id, name: name, postId: postId }),
+    })
+        .then(response => response)
+        .then(data => {
+            getData();
+        })
+        .catch((error) => { console.log('Error: ', error) });
+
+    document.getElementById('edit-name-tag').value = "";
+    document.getElementById('edit-id-tag').value = "";
+    document.getElementById('edit-postId-tag').value = "";
+}
+
+function createTag() {
+    let name = document.getElementById("tag-name").value;
+    select = document.getElementById('blog-options');
+    var postId = select.options[select.selectedIndex].value;
+
+    fetch("http://localhost:57125/tag", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, postId: postId }),
+    })
+        .then(response => response)
+        .then(data => {
+            getData();
+        })
+        .catch((error) => { console.log('Error: ', error) });
+    document.getElementById("tag-name").value = "";
+    document.getElementById("tag-postId").value = "";
 }
 
 function setUpdatePost(id, title, blogId, Postcontent, Likes) {

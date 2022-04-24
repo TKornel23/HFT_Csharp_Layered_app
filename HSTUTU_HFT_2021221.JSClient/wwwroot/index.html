@@ -35,7 +35,7 @@
         <div id="formdiv" class="d-flex justify-content-between border border-grey text-secondary">
             <label style="margin: 5px;padding:5px">EDIT BLOG</label>
             <input type="hidden" id="edit-id" />
-            <input type="text" id="edit-title" />
+            <input placeholder="Blog Title" type="text" id="edit-title" />
             <button onclick="Update()" type="button">Edit Blog</button>
         </div>
     </div>
@@ -73,11 +73,45 @@
         <div id="formdiv" class="d-flex justify-content-between border border-grey text-secondary">
             <label style="margin: 5px;padding:5px">EDIT POST</label>
             <input type="hidden" id="edit-id-post" />
-            <input type="text" id="edit-title-post" />
-            <input type="text" id="edit-blogId-post" />
-            <input type="text" id="edit-postContent-post" />
-            <input type="text" id="edit-likes-post" />
+            <input placeholder="Title" type="text" id="edit-title-post" />
+            <input placeholder="Blog Id" type="text" id="edit-blogId-post" />
+            <input type="text" placeholder="Content" id="edit-postContent-post" />
+            <input type="text" placeholder="Likes" id="edit-likes-post" />
             <button onclick="UpdatePost()" type="button">Edit Post</button>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 2%">
+        <div id="formdiv" class="d-flex justify-content-between border border-grey text-secondary">
+            <label style="margin: 5px;padding:5px">ADD NEW TAG</label>
+            <select style="width:5%" id="post-options"></select>
+            <input placeholder="Tag Name" type="text" id="tag-name" />
+            <section id="tag-postId"></section>
+            <button onclick="createTag()" type="button">Add Tag</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>PostId</th>
+                </tr>
+            </thead>
+            <tbody id="results-tag">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container" style="margin-bottom: 20px;">
+        <div id="formdiv" class="d-flex justify-content-between border border-grey text-secondary">
+            <label style="margin: 5px;padding:5px">EDIT TAG</label>
+            <input type="hidden" id="edit-id-tag" />
+            <input placeholder="Name" type="text" id="edit-name-tag" />
+            <input placeholder="Post Id" type="text" id="edit-postId-tag" />
+            <button onclick="UpdateTag()" type="button">Edit Tag</button>
         </div>
     </div>
 
