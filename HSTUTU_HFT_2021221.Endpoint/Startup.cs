@@ -50,7 +50,9 @@ namespace HSTUTU_HFT_2021221.Endpoint
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
-            app.UseRouting();
+            app.UseCors(x => x.AllowCredentials().AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:51598"));
+
+            app.UseRouting();          
 
             app.UseEndpoints(endpoints =>
             {

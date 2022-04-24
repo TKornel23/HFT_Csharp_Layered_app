@@ -45,8 +45,7 @@ namespace HSTUTU_HFT_2021221.WpfClient
                         Title = value.Title
                     };
 
-                    List<Tag> temp = Tags.Where(x => x.PostId == selectedPost.Id).ToList();
-                    DesiredTags = new ObservableCollection<Tag>(temp);
+                    DesiredTags = new ObservableCollection<Tag>(Tags.Where(x => x.PostId == selectedPost.Id).ToList());
 
                     OnPropertyChanged();
                     (DeletePostCommand as RelayCommand).NotifyCanExecuteChanged();
@@ -130,8 +129,7 @@ namespace HSTUTU_HFT_2021221.WpfClient
                         ID = value.ID
                     };
 
-                    List<Post> temp = Posts.Where(x => x.BlogId == selectedBlog.ID).ToList();
-                    DesiredPosts = new ObservableCollection<Post>(temp);
+                    DesiredPosts = new ObservableCollection<Post>(Posts.Where(x => x.BlogId == selectedBlog.ID).ToList());
 
                     OnPropertyChanged();
                     (DeleteBlogCommand as RelayCommand).NotifyCanExecuteChanged();
@@ -209,6 +207,7 @@ namespace HSTUTU_HFT_2021221.WpfClient
                     try
                     {
                         Posts.Update(selectedPost);
+                        
                     }
                     catch (ArgumentException ex)
                     {
